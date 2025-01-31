@@ -1,0 +1,102 @@
+/* تحسين تصميم البطاقة */
+
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* تباعد مخصص بين العناصر */
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+
+/* تنسيق الأزرار */
+
+.btn {
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+
+/* تحسين مدخلات النصوص */
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border-radius: 15px 0 0 15px;
+}
+
+.form-control {
+    border-radius: 0 15px 15px 0;
+    padding: 10px 15px;
+}
+
+
+/* النصوص داخل العناصر */
+
+.form-label {
+    font-weight: bold;
+    color: #555;
+}
+
+
+/* تحسين شكل مربع النصوص */
+
+textarea {
+    border-radius: 15px;
+    resize: none;
+    height: 100px;
+}
+
+
+/* تحسين حدود المدخلات */
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
+/* تحسين الحاوية */
+
+.container {
+    max-width: 800px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+
+/* إضافة تأثير للأيقونات */
+
+.input-group-text i {
+    color: #007bff;
+    font-size: 1.2rem;
+}
+
+
+/* الرسائل */
+
+.custom-form {
+    padding: 15px;
+}
+
+
+/* تحسين لون زر الإرسال */
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}

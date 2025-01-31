@@ -1,0 +1,98 @@
+<h1 class=>
+
+    My Product </h1>
+<div class="alert alert-info text-center">
+    @if (products.length === 0) { No products added yet.}
+</div>
+<div class="row">
+    <div class="body  ">
+        @for( product of products ; track $index) {
+        <div class="product-card">
+            <div class="product-image">
+                @if (imageSrc) {
+                <div>
+                    <img [src]="imageSrc" alt="Uploaded Image" />
+                </div>
+                <ng-template #noImage>
+                    <p>No image has been uploaded!</p>
+                </ng-template>
+                }@else {noImage} </div>
+            <div class="product-info">
+                <p class="card-text ">
+                    <strong>Product Name: </strong>{{ product.name }}<br />
+                    <strong>Price:</strong> ${{ product.price }}<br />
+                    <strong>@if (product.discountPrice) {
+                  Discount Price: }</strong>
+                    <span> @if (product.discountPrice) {
+                  %{{ product.discountPrice }}} @else { <b>Discount Price : 0%  </b> }</span><br />
+                    <strong>@if (product.storeName) {
+                      Store Name :}</strong>
+                    <span>@if (product.storeName) {
+                      {{ product.storeName }}}</span><br />
+                    <strong>@if (product.storeAddress) {
+                        Store Address :}</strong>
+                    <span>@if (product.storeAddress) {
+                        {{ product.storeAddress }}}</span>
+                    <br />
+                    <strong>Quantity:</strong>
+                    <span>{{ product.quantity }}</span><br />
+                    <button class="btn btn-secondary qty-btn ps-3 pe-3" (click)="increaseQuantity(product)">+</button>
+                    <span>{{   product.quantity }}</span>
+                    <button class="btn btn-secondary qty-btn ps-3 pe-3" (click)="decreaseQuantity(product)">-</button>
+                    <br>
+                    <strong>@if (product.description) {
+                      Description:}</strong>
+                    <span>@if (product.description) {
+                    {{ product.description }}}</span>
+                    <br /> @if (product.color != ""|| product.size != "" ) {
+                    <strong>@if (product.color) {
+                  Color:}</strong>
+                    <span>@if (product.color) {
+                  {{ product.color }}} </span><br />
+                    <strong>@if (product.size) {
+                  Size:}</strong>
+                    <span>@if (product.size) {
+                  {{ product.size }}}</span> <br> }
+                </p>
+            </div>
+            <div class="product-buttons">
+                <button class="btn btn-primary" (click)="viewDetails(product)">View Details</button>
+                <button class="btn btn-primary ps-4 pe-4" (click)="editProduct(product)">Edit</button>
+                <button class="btn btn-danger ps-4 pe-4" (click)="deleteProduct(product.id)">Delete</button>
+
+            </div>
+
+        </div>
+        }
+    </div>
+</div>
+
+<!-- Modal for editing product -->
+@if (productToEdit) {
+<div class="modal" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <h4>Edit Product</h4>
+        <br>
+        <form (ngSubmit)="saveEdit()">
+            <label for="name">Product Name:</label>
+            <input type="text" id="name" [(ngModel)]="productToEdit.name" name="name" required>
+            <label for="price">Price:</label>
+            <input type="number" id="price" [(ngModel)]="productToEdit.price" name="price" required>
+            <label for="image">Image URL:</label>
+            <input type="text" id="image" [(ngModel)]="productToEdit.image" name="image" required>
+            <label for="description">description</label>
+            <input type="text" [(ngModel)]="productToEdit.description" name="description" id="description">
+            <label for="discountPrice">Descount price</label>
+            <input type="number" [(ngModel)]="productToEdit.discountPrice" name="discountPrice" id="discountPrice">
+            <label for="storeName"> Store Name</label>
+            <input type="text" [(ngModel)]="productToEdit.storeName" name="storeName" id="storeName">
+            <label for="storeAddress"> Store Address</label>
+            <input type="text" [(ngModel)]="productToEdit.storeAddress" name="storeAddress" id="storeAddress">
+            <button type="submit" class="btn btn-success ps-4 pe-4 ">Save</button>
+            <br>
+            <button type="button" class="btn btn-secondary ps-4 pe-4 " (click)="closeModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+}
+<a [routerLink]="'/order'">Link</a>

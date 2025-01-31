@@ -1,0 +1,13 @@
+<p>display works!</p>
+<div class="display-container">
+    <h1>Uploaded Image</h1>
+    <!-- <div *ngIf="imageSrc; else noImage"> -->
+    @if (imageSrc) {
+    <div>
+        <img [src]="imageSrc" alt="Uploaded Image" />
+    </div>
+    <ng-template #noImage>
+        <p>No image has been uploaded!</p>
+    </ng-template>
+    }@else {noImage}
+</div>

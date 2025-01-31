@@ -1,0 +1,75 @@
+<title>
+    Sales and Orders Dashboard</title>
+
+<!-- </head>-->
+<!-- <body>-->
+<div class="dashboard">
+    <div class="header">
+        <h1>Sales and Orders Dashboard</h1>
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" (click)="addProduct()">Add Product</button>
+    </div>
+    <div class="stats">
+        <div class="stat">
+            <h2>{{stats.Sales.value}}</h2>
+            <p>{{stats.Sales.name}}</p>
+        </div>
+        <div class="stat">
+            <h2>{{stats.Revenue.value}} </h2>
+            <p>{{stats.Revenue.name}}</p>
+        </div>
+        <div class="stat">
+            <h2>{{stats.Pending.value}}</h2>
+            <p>{{stats.Pending.name}}</p>
+        </div>
+        <div class="stat">
+            <h2>{{stats.copleted.value}}</h2>
+            <p>{{stats.copleted.name}}</p>
+        </div>
+    </div>
+    <div class="orders">
+        <h2>Order Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (order of orders; track $index) {
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.Customer }}</td>
+                    <td>{{ order.Status }}</td>
+                    <td>{{ order.Amount }}</td>
+                    <td>{{ order.Date }}</td>
+                </tr>
+                }
+                <tr>
+                    <td>#001</td>
+                    <td>John Doe</td>
+                    <td>Pending</td>
+                    <td>$250</td>
+                    <td>2025-01-24</td>
+                </tr>
+                <tr>
+                    <td>#002</td>
+                    <td>Jane Smith</td>
+                    <td>Completed</td>
+                    <td>$400</td>
+                    <td>2025-01-23</td>
+                </tr>
+                <tr>
+                    <td>#003</td>
+                    <td>Michael Brown</td>
+                    <td>Pending</td>
+                    <td>$150</td>
+                    <td>2025-01-22</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
