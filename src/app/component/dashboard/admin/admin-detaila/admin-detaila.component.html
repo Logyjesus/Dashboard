@@ -1,0 +1,10 @@
+<div class="container mt-4" *ngIf="admin">
+    <mat-card>
+      <mat-card-title>تفاصيل الأدمن</mat-card-title>
+      <mat-card-content>
+        <p><strong>الاسم:</strong> {{ admin.name }}</p>
+        <p><strong>البريد:</strong> {{ admin.email }}</p>
+        <p><strong>الدور:</strong> {{ admin.role }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>

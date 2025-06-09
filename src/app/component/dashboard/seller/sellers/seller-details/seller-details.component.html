@@ -1,0 +1,10 @@
+<div *ngIf="loading">جاري التحميل...</div>
+
+<div *ngIf="seller && !loading" class="p-3 border rounded bg-light">
+  <h3>تفاصيل السيلر</h3>
+  <p><strong>الاسم:</strong> {{ seller?.name }}</p>
+  <p><strong>البريد الإلكتروني:</strong> {{ seller?.email }}</p>
+  <p><strong>رقم الهاتف:</strong> {{ seller?.phone }}</p>
+  <p><strong>اسم المتجر:</strong> {{ seller?.store_name }}</p>
+  <p><strong>العنوان:</strong> {{ seller?.address}}</p>
+</div>

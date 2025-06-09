@@ -1,0 +1,46 @@
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.13);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+button {
+    font-size: 1rem;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #007bff;
+}
+
+.shadow-lg {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 767px) {
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+}

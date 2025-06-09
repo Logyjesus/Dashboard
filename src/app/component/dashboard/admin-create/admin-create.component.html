@@ -1,0 +1,26 @@
+<div class="container mt-4">
+    <h2>إنشاء أدمن جديد</h2>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill" class="w-100 mb-3">
+        <mat-label>الاسم</mat-label>
+        <input matInput [(ngModel)]="admin.name" name="name" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-100 mb-3">
+        <mat-label>البريد الإلكتروني</mat-label>
+        <input matInput [(ngModel)]="admin.email" name="email" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-100 mb-3">
+        <mat-label>كلمة المرور</mat-label>
+        <input matInput type="password" [(ngModel)]="admin.password" name="password" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" class="w-100 mb-3">
+        <mat-label>تأكيد كلمة المرور</mat-label>
+        <input matInput type="password" [(ngModel)]="admin.password_confirmation" name="password_confirmation" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit">إنشاء</button>
+    </form>
+  </div>

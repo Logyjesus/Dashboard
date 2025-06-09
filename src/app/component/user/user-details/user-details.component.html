@@ -1,0 +1,21 @@
+<div *ngIf="user" class="p-4 border rounded shadow-sm bg-light">
+    <h3 class="mb-3">👤 بيانات المستخدم</h3>
+  
+    <mat-list>
+      <mat-list-item>
+        <mat-icon color="primary" class="me-2">person</mat-icon>
+        <strong>الاسم:</strong>&nbsp; {{ user.name }}
+      </mat-list-item>
+  
+      <mat-list-item>
+        <mat-icon color="primary" class="me-2">email</mat-icon>
+        <strong>الإيميل:</strong>&nbsp; {{ user.email }}
+      </mat-list-item>
+  
+      <mat-list-item *ngIf="user.phone">
+        <mat-icon color="primary" class="me-2">phone</mat-icon>
+        <strong>الهاتف:</strong>&nbsp; {{ user.phone }}
+      </mat-list-item>
+    </mat-list>
+  </div>
+  

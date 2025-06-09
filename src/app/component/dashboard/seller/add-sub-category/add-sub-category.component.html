@@ -1,0 +1,68 @@
+<div class="add-subcategory-container">
+    <h1 class="page-title">Create New Subcategory</h1>
+
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Subcategory Details</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div *ngIf="loading" class="loading-container">
+                <mat-spinner diameter="40"></mat-spinner>
+            </div>
+
+            <form [formGroup]="subcategoryForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Subcategory Name</mat-label>
+                        <input matInput formControlName="name" placeholder="Enter subcategory name">
+                        <mat-error *ngIf="subcategoryForm.get('name')?.hasError('required')">
+                            Name is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Parent Category</mat-label>
+                        <mat-select formControlName="category_id">
+                            <mat-option *ngFor="let category of categories" [value]="category.slug">
+                                {{ category.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="subcategoryForm.get('category_id')?.hasError('required')">
+                            Category is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-row">
+                    <div class="file-input-container">
+                        <button mat-stroked-button type="button" (click)="fileInput.click()">
+              Choose Image
+            </button>
+                        <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept="image/*">
+                        <span class="file-name" *ngIf="subcategoryForm.get('image')?.value">
+              {{ subcategoryForm.get('image')?.value.name }}
+            </span>
+                        <mat-error *ngIf="subcategoryForm.get('image')?.hasError('required') && subcategoryForm.get('image')?.touched">
+                            Image is required
+                        </mat-error>
+                    </div>
+                </div>
+
+                <div class="image-preview" *ngIf="imagePreview">
+                    <img [src]="imagePreview" alt="Preview">
+                </div>
+
+                <div class="form-actions">
+                    <button mat-button type="button" routerLink="/subcategories">Cancel</button>
+                    <button mat-raised-button color="primary" type="submit" [disabled]="subcategoryForm.invalid || submitting">
+            <span *ngIf="!submitting">Create Subcategory</span>
+            <mat-spinner diameter="24" *ngIf="submitting"></mat-spinner>
+          </button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

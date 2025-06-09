@@ -170,7 +170,7 @@ transition: background-color 0.3s ease;
 }
 
 .product-image img {
-    width: 100%;
+    width: 50%;
     border-bottom: 1px solid #ddd;
 }
 

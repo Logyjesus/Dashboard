@@ -1,0 +1,50 @@
+<h2>إضافة سيلر جديد</h2>
+
+<form [formGroup]="sellerForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>الاسم</mat-label>
+    <input matInput formControlName="name" />
+    <mat-error *ngIf="sellerForm.get('name')?.invalid">الاسم مطلوب</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>رقم الهاتف</mat-label>
+    <input matInput formControlName="phone" />
+    <mat-error *ngIf="sellerForm.get('phone')?.invalid">رقم الهاتف مطلوب</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>البريد الإلكتروني</mat-label>
+    <input matInput type="email" formControlName="email" />
+    <mat-error *ngIf="sellerForm.get('email')?.invalid">بريد إلكتروني صالح مطلوب</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>كلمة المرور</mat-label>
+    <input matInput type="password" formControlName="password" />
+    <mat-error *ngIf="sellerForm.get('password')?.invalid">كلمة المرور مطلوبة</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>تأكيد كلمة المرور</mat-label>
+    <input matInput type="password" formControlName="password_confirmation" />
+    <mat-error *ngIf="sellerForm.get('password_confirmation')?.invalid">التأكيد مطلوب</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>العنوان</mat-label>
+    <input matInput formControlName="address" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100 mb-3">
+    <mat-label>اسم المتجر</mat-label>
+    <input matInput formControlName="store_name" />
+    <mat-error *ngIf="sellerForm.get('store_name')?.invalid">اسم المتجر مطلوب</mat-error>
+  </mat-form-field>
+
+  <div *ngIf="error" class="text-danger mb-3">{{ error }}</div>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="submitting">
+    {{ submitting ? 'جاري الإضافة...' : 'إضافة' }}
+  </button>
+</form>

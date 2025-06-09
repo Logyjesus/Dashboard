@@ -11,11 +11,11 @@ export class LoginService {
 
   login(email: string, password: string, role: string): Observable<any> {
     // Simulate API response
-    if (email === 'admin@example.com' && password === 'admin123' && role === 'Admin') {
-      return of({ success: true, token: 'fake-jwt-token-admin', role: 'Admin' });
+    if (email === 'test@example.com' && password === 'password123' && role === 'Admin') {
+      return of({ success: true, token: 'admin', role: 'admin' });
     }
     else if (email === 'seller@example.com' && password === 'seller123' && role === 'Seller') {
-      return of({ success: true, token: 'fake-jwt-token-seller', role: 'Seller' });
+      return of({ success: true, token: 'seller', role: 'Seller' });
     }
     else {
       return of({ success: false, message: 'Invalid credentials or role' });

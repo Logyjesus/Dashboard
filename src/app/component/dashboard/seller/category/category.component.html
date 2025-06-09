@@ -1,0 +1,22 @@
+<div class="container">
+    <a [routerLink]="['/new-category']" class="mb-3 btn btn-secondary">Add New Category</a>
+  
+    <div class="row">
+      @for (category of categories; track category.slug) {
+        <div class="col-sm-4">
+          <div class="card">
+            <img class="card-img-top" [src]="category.image" alt="{{ category.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ category.name }}</h5>
+              <a [routerLink]="['/edit-category', category.slug]" class="btn btn-success me-1">Edit Category</a>
+              <button class="btn btn-danger" (click)="deleteCategory(category.slug)">Delete</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+  
+
+
+  fsdsdgsdgs

@@ -1,11 +1,12 @@
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { AddProductComponent } from "./add-product/add-product.component";
-import { Router } from '@angular/router';
+
+import { Router, RouterModule } from '@angular/router';
 // import { DashboardService } from '../../../service/services/dashboard.service';
 
 @Component({
   selector: 'app-seller',
-  imports: [AddProductComponent],
+  imports: [HttpClientModule ,RouterModule],
   templateUrl: './seller.component.html',
   styleUrl: './seller.component.css'
 })

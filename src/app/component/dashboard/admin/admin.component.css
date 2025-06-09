@@ -1,0 +1,30 @@
+/* app.component.css */
+
+* {
+    direction: rtl;
+}
+
+body {
+    background-color: #f4f6f9;
+}
+
+.card {
+    border-radius: 10px;
+}
+
+.card-header {
+    background-color: #343a40;
+    color: white;
+}
+
+.navbar {
+    background-color: #007bff;
+}
+
+.navbar-nav .nav-link {
+    color: rgb(182, 11, 11) !important;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #ff7f50 !important;
+}

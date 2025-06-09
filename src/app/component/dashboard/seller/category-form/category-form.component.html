@@ -1,0 +1,19 @@
+<div class="container">
+    <h2>{{editMode?'Edit category' : 'Add New Category'}}</h2>
+    <form (onSubmit)="onSubmit()">
+        <div class="mb-4">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" class="form-control" [(ngModel)]="category.name" required name="name">
+        </div>
+        <div class="mb-4 ">
+            <label for="image " class="form-label ">Image</label>
+            <input type="text " id="image " class="form-control " [(ngModel)]="category.image " required name="image">
+        </div>
+        <div class="mb-4 ">
+            <label for="slug " class="form-label ">Slug</label>
+            <input type="text " id="slug " class="form-control " [(ngModel)]="category.slug " required name="slug">
+        </div>
+
+    </form>
+    <button type="submit" class="btn btn-success" (click)="onSubmit()">{{editMode ? 'update category' : 'create category'}}</button>
+</div>

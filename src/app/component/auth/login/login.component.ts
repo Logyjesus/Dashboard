@@ -3,7 +3,7 @@ import { AuthService } from '../../../service/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../../service/auth/login.service';
-import axios from 'axios';
+// import axios from 'axios';
 
 @Component({
   selector: 'app-login',
