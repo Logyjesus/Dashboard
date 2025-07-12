@@ -1,21 +1,32 @@
-<div *ngIf="user" class="p-4 border rounded shadow-sm bg-light">
-    <h3 class="mb-3">👤 بيانات المستخدم</h3>
-  
-    <mat-list>
-      <mat-list-item>
-        <mat-icon color="primary" class="me-2">person</mat-icon>
-        <strong>الاسم:</strong>&nbsp; {{ user.name }}
-      </mat-list-item>
-  
-      <mat-list-item>
-        <mat-icon color="primary" class="me-2">email</mat-icon>
-        <strong>الإيميل:</strong>&nbsp; {{ user.email }}
-      </mat-list-item>
-  
-      <mat-list-item *ngIf="user.phone">
-        <mat-icon color="primary" class="me-2">phone</mat-icon>
-        <strong>الهاتف:</strong>&nbsp; {{ user.phone }}
-      </mat-list-item>
-    </mat-list>
+<div *ngIf="user" class="user-details-container" dir="rtl">
+  <div class="header">
+    <i class="fas fa-user-circle icon-main"></i>
+    <h2>بيانات المستخدم</h2>
   </div>
-  
+
+  <div class="user-info">
+    <div class="info-item">
+      <i class="fas fa-user icon success"></i>
+      <span><strong>الاسم :</strong> {{ user.name }}</span>
+    </div>
+
+    <div class="info-item">
+      <i class="fas fa-tag icon info"></i>
+      <span><strong> Slug : </strong> {{ user.slug }}</span>
+    </div>
+
+    <div class="info-item">
+      <i class="fas fa-envelope icon danger"></i>
+      <span><strong>الإيميل : </strong> {{ user.email }}</span>
+    </div>
+
+    <div *ngIf="user.phone" class="info-item">
+      <i class="fas fa-phone icon warning"></i>
+      <span><strong> الهاتف : </strong> {{ user.phone }}</span>
+    </div>
+  </div>
+</div>
+
+<button class="back-button" (click)="goBack()">
+  🔙 رجوع
+</button>

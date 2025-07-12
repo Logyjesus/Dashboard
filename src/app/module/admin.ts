@@ -7,6 +7,6 @@ export interface Admin {
     password_confirmation?: string;
     role?: string;
     store_name:string;
-    phone : number;
+    phone : string;
     address:string;
 }

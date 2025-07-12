@@ -1,0 +1,5 @@
+form input, form select {
+    direction: rtl;
+    text-align: right;
+  }
+  

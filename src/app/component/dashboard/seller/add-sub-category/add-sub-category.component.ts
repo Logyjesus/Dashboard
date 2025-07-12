@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,15 +8,19 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { Category } from '../../../../module/category';
-import { SubCategoryService } from '../../../../service/sub-category.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { SubCategoryService } from '../../../../service/sub-category.service';
 import { CayegoryService } from '../../../../service/cayegory.service';
+import { Category } from '../../../../module/category';
+
 @Component({
   selector: 'app-add-sub-category',
-  imports: [ CommonModule,
+  standalone: true,
+  imports: [
+    CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     MatCardModule,
     MatFormFieldModule,
@@ -24,88 +28,78 @@ import { CayegoryService } from '../../../../service/cayegory.service';
     MatSelectModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule],
+    MatSnackBarModule
+  ],
   templateUrl: './add-sub-category.component.html',
   styleUrl: './add-sub-category.component.css'
 })
-export class AddSubCategoryComponent {
-
-  subcategoryForm: FormGroup;
+export class AddSubCategoryComponent implements OnInit {
+  form: FormGroup;
+  imageFile: File | null = null;
   categories: Category[] = [];
-  loading = false;
-  submitting = false;
-  imagePreview: string | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private subcategoryService: SubCategoryService,
+    private subCategoryService: SubCategoryService,
     private categoryService: CayegoryService,
-    private snackBar: MatSnackBar,
     private router: Router
   ) {
-    this.subcategoryForm = this.fb.group({
-      name: ['', [Validators.required]],
-      category_id: ['', [Validators.required]],
-      image: [null, [Validators.required]]
+    this.form = this.fb.group({
+      name: [''],
+      category_slug: ['']
     });
   }
 
   ngOnInit(): void {
+    
     this.loadCategories();
   }
 
-  loadCategories(): void {
-    this.loading = true;
-    this.categoryService.getCategories().subscribe({
-      next: (data) => {
-        this.categories = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading categories:', err);
-        this.snackBar.open('Failed to load categories', 'Close', { duration: 3000 });
-        this.loading = false;
-      }
-    });
-  }
 
-  onFileSelected(event: Event): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (file) {
-      this.subcategoryForm.patchValue({ image: file });
-      this.subcategoryForm.get('image')?.updateValueAndValidity();
 
-      // Preview the image
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = reader.result as string;
-      };
-      reader.readAsDataURL(file);
+
+ loadCategories(): void {
+  this.categoryService.getAll().subscribe({
+    next: (res: any) => {
+      // جربي تطبعيها للتأكد
+      console.log('كل الكاتيجوري:', res);
+      this.categories = res?.data || res || [];  // تدعم الشكلين
+    },
+    error: (err) => {
+      console.error('❌ خطأ في تحميل الأقسام:', err);
     }
+  });
+}
+
+
+  onFileChange(event: any) {
+    this.imageFile = event.target.files[0];
   }
 
-  onSubmit(): void {
-    if (this.subcategoryForm.invalid) {
-      return;
-    }
+  submit() {
+  console.log('بيانات الفورم:', this.form.value);
+  const formData = new FormData();
+  formData.append('name', this.form.value.name);
 
-    this.submitting = true;
-    const formData = new FormData();
-    formData.append('name', this.subcategoryForm.get('name')?.value);
-    formData.append('category_id', this.subcategoryForm.get('category_id')?.value);
-    formData.append('image', this.subcategoryForm.get('image')?.value);
-
-    this.subcategoryService.createSubcategory(formData).subscribe({
-      next: () => {
-        this.snackBar.open('Subcategory created successfully', 'Close', { duration: 3000 });
-        this.router.navigate(['/subcategories']);
-        this.submitting = false;
-      },
-      error: (err) => {
-        console.error('Error creating subcategory:', err);
-        this.snackBar.open('Failed to create subcategory', 'Close', { duration: 3000 });
-        this.submitting = false;
-      }
-    });
+  if (this.form.value.category_slug) {
+    formData.append('category_slug', this.form.value.category_slug);
+  } else {
+    console.error('⚠️ لا يوجد category_slug');
   }
+
+  if (this.imageFile) {
+    formData.append('image', this.imageFile);
+  }
+
+  this.subCategoryService.create(formData).subscribe({
+    next: () => {
+      alert('✅ تم إضافة التصنيف الفرعي بنجاح');
+      this.router.navigate(['category']);
+    },
+    error: (err) => {
+      console.error('❌ خطأ في الإضافة:', err);
+    },
+  });
+}
+
 }

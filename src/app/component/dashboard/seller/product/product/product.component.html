@@ -1,0 +1,87 @@
+<br> 
+<app-nav-bar-seller></app-nav-bar-seller>
+<br>
+<div style="text-align: center; margin-bottom: 20px;">
+  <input [(ngModel)]="searchText" placeholder="🔍 ابحث باسم المنتج..." class="form-control" style="width: 300px; margin: auto;" />
+</div>
+
+<div *ngIf="filteredProducts.length; else noProducts" class="product-list" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+  <mat-card *ngFor="let product of filteredProducts" style="width: 350px; background: rgba(255, 255, 255, 0.7); box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+    <mat-card-header>
+      <mat-card-title>{{ product.name }}</mat-card-title>
+      <mat-card-subtitle>{{ product.description }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+
+      <!-- صور المنتج -->
+      <div *ngIf="getAllImageUrls(product).length > 0">
+        <img *ngFor="let image of getAllImageUrls(product)"
+             [src]="image"
+             alt="صورة المنتج"
+             style="width: 120px; height: auto; margin: 5px; border-radius: 6px;" />
+      </div>
+
+      <p><strong>السعر:</strong> {{ product.price }} جنيه</p>
+      <p><strong>السعر بعد الخصم:</strong> {{ product.discounted_price }} جنيه</p>
+      <p><strong>الكمية:</strong> {{ product.quantity }}</p>
+      <p><strong>اسم االمحل :</strong> {{ product.store_name }}</p>
+
+      <!-- عرض الألوان فقط إذا كانت موجودة -->
+      <div *ngIf="product.colors?.length">
+        <strong>الألوان:</strong>
+        <span *ngFor="let color of product.colors" class="badge" 
+              [style.backgroundColor]="color.color" style="margin: 2px 5px; padding: 4px 10px; color: black; border-radius: 6px;">
+          {{ color.color }}
+        </span>
+      </div>
+
+      <!-- عرض المقاسات فقط إذا كانت موجودة -->
+      <div *ngIf="product.sizes?.length">
+        <strong>المقاسات:</strong>
+        <span *ngFor="let size of product.sizes" class="badge"
+              style="margin: 2px 5px; padding: 4px 10px; background-color: #9c27b0; color: white; border-radius: 6px;">
+          {{ size.size }}
+        </span>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button color="primary" (click)="editProduct(product)">✏️ تعديل</button>
+      <button mat-button color="warn" (click)="deleteProduct(product.slug)">🗑️ حذف</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<ng-template #noProducts>
+  <div style="text-align: center; margin-top: 50px; color: #888; font-size: 20px;">
+    🚫 لا توجد منتجات لعرضها
+  </div>
+</ng-template>
+
+<div style="margin-top: 30px; text-align: center;">
+  <button mat-raised-button color="accent" (click)="goToAdd()">➕ إضافة منتج جديد</button>
+</div>
+
+<div *ngIf="totalPages >= 1" style="text-align: center; margin: 30px auto;">
+  <button mat-stroked-button (click)="previousPage()" [disabled]="currentPage === 1">⬅️ السابق</button>
+
+  <span style="margin: 0 15px;">
+    الصفحة {{ currentPage }} من {{ totalPages }}
+  </span>
+
+  <button mat-stroked-button (click)="nextPage()" [disabled]="currentPage === totalPages">التالي ➡️</button>
+</div>
+
+<div *ngIf="totalPages > 1" style="text-align: center; margin: 30px auto;">
+  <button mat-stroked-button (click)="previousPage()" [disabled]="currentPage === 1">⬅️ السابق</button>
+
+  <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+    <button mat-button 
+            [disabled]="currentPage === i + 1"
+            (click)="goToPage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </ng-container>
+
+  <button mat-stroked-button (click)="nextPage()" [disabled]="currentPage === totalPages">التالي ➡️</button>
+</div>

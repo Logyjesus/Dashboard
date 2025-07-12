@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm" dir="rtl">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" [routerLink]="'/dashboard/admin'">
+      <i class="fas fa-store me-2"></i> إدارة المتجر
+    </a>
+
+    <!-- زر القائمة -->
+    <button class="navbar-toggler" type="button" (click)="isMenuOpen = !isMenuOpen" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- القوائم -->
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': isMenuOpen }" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/dashboard/admin'">
+            <i class="fas fa-chart-line me-1 text-primary"></i> لوحة التحكم
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/sellers/new'">
+            <i class="fas fa-user-plus me-1 text-success"></i> إضافة بائع
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/sellers'">
+            <i class="fas fa-users me-1 text-info"></i> بيانات البائعين
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/Admins'">
+            <i class="fas fa-user-shield me-1 text-warning"></i> بيانات الأدمن
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/users'">
+            <i class="fas fa-user me-1 text-danger"></i> المستخدمين
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/category'">
+            <i class="fas fa-layer-group me-1 text-secondary"></i> الأقسام الرئيسية
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/subcategories/create'">
+            <i class="fas fa-plus-circle me-1 text-success"></i> قسم فرعي جديد
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

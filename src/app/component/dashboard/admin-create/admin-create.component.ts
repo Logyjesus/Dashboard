@@ -15,19 +15,38 @@ import { Admin } from '../../../module/admin';
   styleUrl: './admin-create.component.css'
 })
 export class AdminCreateComponent {
-  admin: Admin = {
-    name: '', email: '', password: '', password_confirmation: '',
+   admin: Admin = {
+    name: '',
+    email: '',
+    phone: '',
     store_name: '',
-    phone: 0,
-    address: ''
+    address: '',
+    role: 'admin',
+    slug: '',
+    password: '',
+    password_confirmation: ''
   };
 
-  constructor(private adminService: AdminService, private router: Router) {}
+  constructor(
+    private adminService: AdminService,
+    private router: Router
+  ) {}
 
-  onSubmit() {
-    this.adminService.create(this.admin).subscribe(() => {
-      alert('تم إنشاء الأدمن بنجاح');
-      this.router.navigate(['/admin']);
+  createAdmin(): void {
+    if (!this.admin.password || this.admin.password !== this.admin.password_confirmation) {
+      alert('❌ تأكد من أن كلمة المرور وتأكيدها متطابقان');
+      return;
+    }
+
+    this.adminService.create(this.admin).subscribe({
+      next: () => {
+        alert('✅ تم إنشاء الأدمن بنجاح');
+        this.router.navigate(['/Admins']);
+      },
+      error: (err) => {
+        console.error('❌ خطأ في إنشاء الأدمن:', err);
+        alert('❌ فشل في إنشاء الأدمن:\n' + (err?.error?.message || 'تفاصيل غير معروفة'));
+      }
     });
   }
 }

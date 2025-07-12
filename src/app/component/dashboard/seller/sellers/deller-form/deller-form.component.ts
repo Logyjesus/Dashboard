@@ -7,62 +7,62 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-deller-form',
   standalone:true,
-  imports: [MatFormFieldModule ,MatIconModule ,MatButtonModule,MatInputModule , MatListModule ,ReactiveFormsModule],
+  imports: [MatFormFieldModule ,MatIconModule ,MatButtonModule,MatInputModule , MatListModule ,ReactiveFormsModule,CommonModule],
   templateUrl: './deller-form.component.html',
   styleUrl: './deller-form.component.css'
 })
 export class DellerFormComponent {
-  sellerForm: FormGroup;
-  submitting = false;
-  error?: string;
+  sellerForm!: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private sellerService: SellerService,
-    private router: Router
-  ) {
+  constructor(private fb: FormBuilder, private http: HttpClient,private router: Router) {}
+
+  ngOnInit(): void {
     this.sellerForm = this.fb.group({
       name: ['', Validators.required],
-      phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      phone: ['', Validators.required],
+      store_name: ['', Validators.required],
+      address: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       password_confirmation: ['', Validators.required],
-      address: [''],
-      store_name: ['', Validators.required]
+    }, {
+      validators: this.passwordsMatchValidator
     });
   }
 
-  onSubmit() {
-    if (this.sellerForm.invalid) return;
-
-    if(this.sellerForm.value.password !== this.sellerForm.value.password_confirmation){
-      this.error = 'كلمتا المرور غير متطابقتين';
-      return;
-    }
-
-    this.error = undefined;
-    this.submitting = true;
-
-    // عمل FormData
-    const formData = new FormData();
-    Object.entries(this.sellerForm.value).forEach(([key, value]) => {
-      formData.append(key, value as string);
-    });
-
-    this.sellerService.create(formData).subscribe({
-      next: () => {
-        this.submitting = false;
-        this.router.navigate(['/sellers']);
-      },
-      error: (err) => {
-        this.submitting = false;
-        this.error = 'حدث خطأ أثناء الإضافة';
-        console.error(err);
-      }
-    });
+  passwordsMatchValidator(form: any) {
+    const password = form.get('password')?.value;
+    const confirm = form.get('password_confirmation')?.value;
+    return password === confirm ? null : { mismatch: true };
   }
+
+  createSeller() {
+  
+    this.http.post('http://127.0.0.1:8000/api/dashboard/sellers', this.sellerForm.value)
+      .subscribe({
+        next: (res) => {
+          console.log('الرد من السيرفر:', res);
+          alert('تم إنشاء حساب البائع بنجاح');
+          this.sellerForm.reset();
+          this.router.navigate(['/sellers']);
+        },
+        error: (err) => {
+          // ✅ هنا نعرض الرسالة من السيرفر
+          if (err.status === 422 && err.error?.message) {
+            alert('خطأ: ' + err.error.message);
+          } else {
+            alert('حدث خطأ غير متوقع');
+          }
+  
+          console.error(err);
+        }
+      });
+  }
+  
 }

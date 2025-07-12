@@ -10,5 +10,8 @@ export interface Product {
     sizes: { size: string }[];   
     sub_category_id : number;
     storeAddress : string;
+      store_name?: string; // ✅ أضف هذا السطر لو مش موجود
+       seller_slug: string; // ✅ أضف هذه
+
 }
 

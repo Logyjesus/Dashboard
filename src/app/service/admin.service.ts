@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Admin } from '../module/admin';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,32 +11,27 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Admin[]> {
-    return this.http.get<Admin[]>(this.apiUrl);
-  }
+  // getAll(): Observable<Admin[]> {
+  //   return this.http.get<any>(this.apiUrl).pipe(
+  //     map(response => response.admins) // ترجعلك قائمة الأدمنز مباشرة
+  //   );
+  // }
+  
+  getAll(page: number = 1): Observable<{ admins: Admin[], pagination: any }> {
+  return this.http.get<any>(`${this.apiUrl}?page=${page}`);
+}
 
   getBySlug(slug: string): Observable<Admin> {
     return this.http.get<Admin>(`${this.apiUrl}/${slug}`);
   }
 
-  create(admin: Admin): Observable<any> {
-    const formData = new FormData();
-    formData.append('name', admin.name);
-    formData.append('email', admin.email);
-    formData.append('password', admin.password!);
-    formData.append('password_confirmation', admin.password_confirmation!);
-    return this.http.post(this.apiUrl, formData);
+  create(adminData: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, adminData);
   }
+  
 
-  update(slug: string, admin: Admin): Observable<any> {
-    const formData = new FormData();
-    formData.append('name', admin.name);
-    formData.append('email', admin.email);
-    if (admin.password) {
-      formData.append('password', admin.password);
-      formData.append('password_confirmation', admin.password_confirmation!);
-    }
-    return this.http.patch(`${this.apiUrl}/${slug}`, formData);
+  update(slug: string, data: any) {
+    return this.http.patch(`${this.apiUrl}/${slug}`, data);
   }
 
   delete(slug: string): Observable<any> {

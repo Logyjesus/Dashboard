@@ -29,64 +29,41 @@ import { ConfirmDialogComponent } from './app-confirm-dialog/app-confirm-dialog.
   styleUrl: './sub-category.component.css'
 })
 export class SubCategoryComponent {
+subCategories: any[] = [];
+  loading = true;
 
-subcategories: SubCategory[] = [];
-loading = true;
-error: string | null = null;
+  constructor(private subCategoryService: SubCategoryService, private snackBar: MatSnackBar) {}
 
-constructor(
-  private subcategoryService: SubCategoryService,
-  private dialog: MatDialog,
-  private snackBar: MatSnackBar
-) {}
+  ngOnInit(): void {
+    this.fetchSubCategories();
+  }
 
-ngOnInit(): void {
-  this.loadSubcategories();
-}
+  fetchSubCategories() {
+    this.loading = true;
+    this.subCategoryService.getAll().subscribe({
+      next: (res) => {
+        this.subCategories = res;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('❌ خطأ في تحميل التصنيفات الفرعية:', err);
+        this.loading = false;
+      },
+    });
+  }
 
-loadSubcategories(): void {
-  this.loading = true;
-  this.error = null;
-
-this.subcategoryService.getSubcategories().subscribe({
-    next: (data) => {
-      this.subcategories = data;
-      this.loading = false;
-    },
-    error: (err) => {
-      console.error('Error fetching subcategories:', err);
-      this.error = 'Failed to load subcategories. Please try again later.';
-      this.loading = false;
-    }
-  });
-}
-
-deleteSubcategory(subcategory: SubCategory): void {
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    width: '350px',
-    data: {
-      title: 'Delete Subcategory',
-      message: `Are you sure you want to delete "${subcategory.name}"?`
-    }
-  });
-
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      this.loading = true;
-
-      this.subcategoryService.deleteSubcategory(subcategory.slug).subscribe({
+  deleteSubCategory(slug: string) {
+    if (confirm('❗ هل أنت متأكد أنك تريد حذف هذا التصنيف؟')) {
+      this.subCategoryService.delete(slug).subscribe({
         next: () => {
-          this.subcategories = this.subcategories.filter(item => item.slug !== subcategory.slug);
-          this.snackBar.open('Subcategory deleted successfully', 'Close', { duration: 3000 });
-          this.loading = false;
+          this.subCategories = this.subCategories.filter(sc => sc.slug !== slug);
+          this.snackBar.open('✅ تم حذف التصنيف الفرعي بنجاح', 'إغلاق', { duration: 3000 });
         },
         error: (err) => {
-          console.error('Error deleting subcategory:', err);
-          this.snackBar.open('Failed to delete subcategory', 'Close', { duration: 3000 });
-          this.loading = false;
+          console.error('❌ خطأ أثناء الحذف:', err);
+          this.snackBar.open('❌ فشل في حذف التصنيف', 'إغلاق', { duration: 3000 });
         }
       });
     }
-  });
-}
+  }
 }

@@ -1,10 +1,62 @@
-<div *ngIf="loading">جاري التحميل...</div>
+<div class="container py-5 d-flex justify-content-center align-items-center">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6">
 
-<div *ngIf="seller && !loading" class="p-3 border rounded bg-light">
-  <h3>تفاصيل السيلر</h3>
-  <p><strong>الاسم:</strong> {{ seller?.name }}</p>
-  <p><strong>البريد الإلكتروني:</strong> {{ seller?.email }}</p>
-  <p><strong>رقم الهاتف:</strong> {{ seller?.phone }}</p>
-  <p><strong>اسم المتجر:</strong> {{ seller?.store_name }}</p>
-  <p><strong>العنوان:</strong> {{ seller?.address}}</p>
+    <!-- Spinner -->
+    <div *ngIf="loading" class="text-center my-5">
+      <mat-spinner diameter="50" color="accent"></mat-spinner>
+    </div>
+
+    <!-- Seller Info Table -->
+    <mat-card *ngIf="!loading && seller" class="shadow-lg rounded-4 p-4" style="background-color: #fff; direction: rtl; text-align: right;">
+      <h3 class="text-center mb-4 text-primary">📄 بيانات البائع</h3>
+
+      <table class="table table-bordered table-hover rounded-3 overflow-hidden">
+        <tbody class="align-middle">
+          <tr>
+            <th scope="row" class="bg-light w-50"><i class="bi bi-person-fill text-primary"></i> الاسم الكامل</th>
+            <td>{{ seller.name }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bg-light"><i class="bi bi-geo-alt-fill text-danger"></i> slug</th>
+            <td>{{ seller.slug || '—' }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bg-light"><i class="bi bi-shop text-success"></i> اسم المتجر</th>
+            <td>{{ seller.store_name }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bg-light"><i class="bi bi-envelope-fill text-info"></i> البريد الإلكتروني</th>
+            <td>{{ seller.email }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bg-light"><i class="bi bi-telephone-fill text-warning"></i> رقم الهاتف</th>
+            <td>{{ seller.phone }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bg-light"><i class="bi bi-person-badge-fill text-secondary"></i> الدور</th>
+            <td>{{ seller.role }}</td>
+          </tr>
+          <tr>
+            <th scope="row" class="bg-light"><i class="bi bi-geo-alt-fill text-danger"></i> العنوان</th>
+            <td>{{ seller.address || '—' }}</td>
+          </tr>
+         
+        </tbody>
+      </table>
+
+      <div class="d-flex justify-content-between mt-4">
+        <button mat-stroked-button color="primary" (click)="backToList()">
+          ⬅️ عودة للقائمة
+        </button>
+        <button mat-raised-button color="accent" [routerLink]="['/sellers/edit', seller.slug]">
+          ✏️ تعديل البائع
+        </button>
+      </div>
+    </mat-card>
+
+    <!-- في حالة عدم وجود بيانات -->
+    <div *ngIf="!loading && !seller" class="alert alert-danger text-center mt-4" style="direction: rtl;">
+      ⚠️ لم يتم العثور على تفاصيل هذا البائع.
+    </div>
+  </div>
 </div>

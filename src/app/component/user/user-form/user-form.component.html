@@ -1,47 +1,32 @@
-<div class="container mt-5">
-    <div class="card shadow-sm">
-      <div class="card-header bg-primary text-white">
-        <h4 class="mb-0">
-          {{ isEdit ? '✏️ تعديل مستخدم' : '➕ إضافة مستخدم جديد' }}
-        </h4>
-      </div>
-      <div class="card-body">
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          
-          <div class="mb-3">
-            <label for="name" class="form-label">الاسم</label>
-            <input type="text" class="form-control" id="name" formControlName="name" placeholder="ادخل الاسم">
-          </div>
-  
-          <div class="mb-3">
-            <label for="email" class="form-label">البريد الإلكتروني</label>
-            <input type="email" class="form-control" id="email" formControlName="email" placeholder="ادخل البريد الإلكتروني">
-          </div>
-  
-          <div class="mb-3">
-            <label for="phone" class="form-label">رقم الهاتف</label>
-            <input type="text" class="form-control" id="phone" formControlName="phone" placeholder="ادخل رقم الهاتف">
-          </div>
-  
-          <div class="mb-3" *ngIf="!isEdit">
-            <label for="password" class="form-label">كلمة المرور</label>
-            <input type="password" class="form-control" id="password" formControlName="password" placeholder="ادخل كلمة المرور">
-          </div>
-  
-          <div class="mb-3" *ngIf="!isEdit">
-            <label for="password_confirmation" class="form-label">تأكيد كلمة المرور</label>
-            <input type="password" class="form-control" id="password_confirmation" formControlName="password_confirmation" placeholder="اعد كتابة كلمة المرور">
-          </div>
-  
-          <div class="d-flex justify-content-between">
-            <button type="submit" class="btn btn-success">
-              {{ isEdit ? '💾 تحديث' : '➕ إنشاء' }}
-            </button>
-            <a routerLink="/users" class="btn btn-secondary">↩️ رجوع</a>
-          </div>
-  
-        </form>
-      </div>
+<div class="container my-4">
+  <h2 class="text-center mb-4">إنشاء مستخدم جديد</h2>
+
+  <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" class="card p-4 mx-auto" style="max-width: 600px;">
+    <div class="mb-3">
+      <label>الاسم:</label>
+      <input class="form-control" name="name" [(ngModel)]="user.name" required />
     </div>
-  </div>
-  
+
+    <div class="mb-3">
+      <label>البريد الإلكتروني:</label>
+      <input class="form-control" name="email" type="email" [(ngModel)]="user.email" required />
+    </div>
+
+    <div class="mb-3">
+      <label>رقم الهاتف:</label>
+      <input class="form-control" name="phone" [(ngModel)]="user.phone" />
+    </div>
+
+    <div class="mb-3">
+      <label>كلمة المرور:</label>
+      <input class="form-control" name="password" type="password" [(ngModel)]="user.password" required />
+    </div>
+
+    <div class="mb-3">
+      <label>تأكيد كلمة المرور:</label>
+      <input class="form-control" name="password_confirmation" type="password" [(ngModel)]="user.password_confirmation" required />
+    </div>
+
+    <button class="btn btn-success w-100" type="submit">➕ إنشاء المستخدم</button>
+  </form>
+</div>

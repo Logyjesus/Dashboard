@@ -1,0 +1,47 @@
+<div class="container mt-4" *ngIf="!loading">
+  <div class="card shadow rounded-4 p-4">
+    <h3 class="mb-4 text-center text-primary">
+      <i class="fas fa-user-edit me-2"></i> تعديل بيانات المستخدم
+    </h3>
+
+    <div class="row g-3">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label><i class="fas fa-user me-2 text-secondary"></i> الاسم</mat-label>
+          <input matInput [(ngModel)]="user.name" placeholder="أدخل الاسم الكامل">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label><i class="fas fa-envelope me-2 text-secondary"></i> البريد الإلكتروني</mat-label>
+          <input matInput [(ngModel)]="user.email" placeholder="example@email.com" type="email">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label><i class="fas fa-phone me-2 text-secondary"></i> رقم الهاتف</mat-label>
+          <input matInput [(ngModel)]="user.phone" placeholder="01023456789" type="tel">
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="text-center mt-4">
+
+           <button mat-raised-button  class="px-5 py-2 fs-5 rounded-pill ms-4 " color="warn"  type="button" (click)="backToList()">
+            ❌ إلغاء
+          </button>
+          <br>
+          <br>
+       
+      <button mat-raised-button color="primary" class="px-5 py-2 fs-5 mx-4 rounded-pill" (click)="updateUser()">
+        <i class="fas fa-save me-2"></i> حفظ التعديلات
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="text-center my-5 fs-4 text-muted">
+  <i class="fas fa-spinner fa-spin me-2"></i> جاري التحميل...
+</div>

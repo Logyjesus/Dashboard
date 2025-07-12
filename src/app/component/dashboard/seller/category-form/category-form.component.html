@@ -1,19 +1,21 @@
-<div class="container">
-    <h2>{{editMode?'Edit category' : 'Add New Category'}}</h2>
-    <form (onSubmit)="onSubmit()">
-        <div class="mb-4">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" id="name" class="form-control" [(ngModel)]="category.name" required name="name">
-        </div>
-        <div class="mb-4 ">
-            <label for="image " class="form-label ">Image</label>
-            <input type="text " id="image " class="form-control " [(ngModel)]="category.image " required name="image">
-        </div>
-        <div class="mb-4 ">
-            <label for="slug " class="form-label ">Slug</label>
-            <input type="text " id="slug " class="form-control " [(ngModel)]="category.slug " required name="slug">
-        </div>
+<div class="container p-4">
+  <h2 class="text-xl font-bold mb-4">➕ إنشاء قسم جديد</h2>
 
-    </form>
-    <button type="submit" class="btn btn-success" (click)="onSubmit()">{{editMode ? 'update category' : 'create category'}}</button>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill" class="w-100 mb-3">
+      <mat-label>اسم القسم</mat-label>
+      <input matInput formControlName="name" placeholder="مثال: ملابس رجالي" />
+    </mat-form-field>
+    <div class="mb-3">
+      <label class="form-label">صورة القسم</label>
+      <input type="file" (change)="onImageChange($event)" class="form-control" />
+      <img *ngIf="imagePreview" [src]="imagePreview" alt="preview" class="mt-2" width="120" />
+    </div>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading" >
+      {{ loading ? 'تم الانشاء' : 'إنشاء القسم' }}
+    </button>
+   <small class="text-gray-500">الحد الأقصى لحجم الصورة: 2 ميجا</small>
+
+  </form>
 </div>

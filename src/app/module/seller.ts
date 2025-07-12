@@ -1,4 +1,6 @@
 export interface Seller {
+    password: any;
+    seller: Seller;
     slug: string;
     name: string;
     email: string;

@@ -1,76 +1,151 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import {  RouterModule, RouterOutlet } from '@angular/router';
+import { Seller } from '../../../module/seller';
+import { HttpClient } from '@angular/common/http';
+import { DashboardService } from '../../../service/dashboard.service';
+import { Order } from '../../../module/data-dashboard';
+import { SellerService } from '../../../service/seller.service';
+import { SellerSidebarComponent } from './seller-sidebar/seller-sidebar.component';
+import { Router } from '@angular/router';
+import { PaginationComponent } from '../../shared/pagination/pagination.component';
+import { NavbarAdminComponent } from "./navbar-admin/navbar-admin.component";
 
 @Component({
   selector: 'app-admin',
-  imports: [RouterOutlet,FormsModule,CommonModule,RouterModule],
+  standalone:true,
+  imports: [RouterOutlet, FormsModule, CommonModule, RouterModule, SellerSidebarComponent, RouterModule, PaginationComponent, NavbarAdminComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
+  sellersCount = 0;
+   
+  // ordersCount = 0;
+  // usersCount = 0;
+  // soldProductsCount = 0;
+  // orders: Order[] = [];
 
-  // محاكاة بيانات البائعين
-  sellers = [
-    { id: 1, name: 'بائع 1' },
-    { id: 2, name: 'بائع 2' },
-    { id: 3, name: 'بائع 3' }
-  ];
 
-  // محاكاة بيانات الطلبات
-  ordersData: { [key: number]: { id: number, customer: string, amount: number, status: string }[] } = {
-    1: [
-      { id: 101, customer: 'عميل 1', amount: 200, status: 'مكتمل' },
-      { id: 102, customer: 'عميل 2', amount: 300, status: 'قيد التنفيذ' }
-    ],
-    2: [
-      { id: 201, customer: 'عميل 3', amount: 400, status: 'ملغي' },
-      { id: 202, customer: 'عميل 4', amount: 500, status: 'مكتمل' }
-    ],
-    3: [
-      { id: 301, customer: 'عميل 5', amount: 600, status: 'قيد التنفيذ' },
-      { id: 302, customer: 'عميل 6', amount: 700, status: 'مكتمل' }
-    ]
-  };
+  // ngOnInit(): void {
+  //   this.dashboardService.getSellers().subscribe(sellers => {
+  //     this.sellersCount = sellers.length;
+  //   });
 
-  // محاكاة بيانات الإحصائيات لكل بائع
-  statisticsData: { [key: number]: { totalSales: number, totalRevenue: number, completedOrders: number, pendingOrders: number } } = {
-    1: { totalSales: 10, totalRevenue: 1000, completedOrders: 5, pendingOrders: 2 },
-    2: { totalSales: 8, totalRevenue: 800, completedOrders: 4, pendingOrders: 3 },
-    3: { totalSales: 12, totalRevenue: 1200, completedOrders: 6, pendingOrders: 4 }
-  };
+  //   this.dashboardService.getUsers().subscribe(users => {
+  //     this.usersCount = users.length;
+  //   });
 
-  orders: any[] = [];
-  sellerStats: any = {};
-  selectedSeller: number | undefined; // تحديد النوع ليكون number
-  selectedSellerForStats: number | undefined; // تحديد النوع ليكون number
+  //   this.dashboardService.getOrders().subscribe(orders => {
+  //     this.orders = orders;
+  //     this.ordersCount = orders.length;
 
-  seller = { name: '', email: '' }; // بيانات البائع الجديد
-ordersCount: any;
-sellersCount: any;
-soldProductsCount: any;
+  //     // تقدير عدد المنتجات المباعة (مثلاً كل طلب = منتج)
+  //     this.soldProductsCount = orders.length;
+  //   });
+  // }
 
-  // إضافة بائع جديد
-  addSeller() {
-    const newSeller = { id: this.sellers.length + 1, name: this.seller.name, email: this.seller.email };
-    this.sellers.push(newSeller);
-    this.seller.name = '';
-    this.seller.email = '';
-    alert('تم إضافة البائع بنجاح');
+
+ sellers: Seller[] = [];
+  filteredSellers: Seller[] = [];
+  loading: boolean = false;
+  searchTerm: string = '';
+  displayedColumns: string[] = ['name', 'store_name', 'email', 'phone', 'actions'];
+
+  constructor(
+    private sellerService: SellerService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
+
+  ngOnInit(): void {
+    this.loadSellers();
+    this.loadOrders();
   }
+  
+  
+pagination = {
+  currentPage: 1,
+  totalPages: 1
+}
+  loadSellers(page: number = 1): void {
+    this.loading = true;
 
-  // الحصول على الطلبات الخاصة بالبائع
-  getOrdersForSeller() {
-    if (this.selectedSeller !== undefined) {
-      this.orders = this.ordersData[this.selectedSeller] || [];
+  this.http.get<any>(`http://127.0.0.1:8000/api/dashboard/sellers?page=${page}`).subscribe({
+      next: (response) => {
+        if (response && response.sellers) {
+          this.sellers = response.sellers;
+          this.filteredSellers = this.sellers;
+          this.sellersCount = this.sellers.length
+  this.pagination = {
+      currentPage: response.pagination.current_page,
+      totalPages: Math.ceil(response.pagination.total / response.pagination.per_page)
+    };
+    // http://127.0.0.1:8000/api/dashboard/sellers?page=${page}
+          console.log(this.sellersCount)
+        } else {
+          this.sellers = [];
+          this.filteredSellers = [];
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error("❌ خطأ في API:", err);
+        this.sellers = [];
+        this.filteredSellers = [];
+        this.loading = false;
+      }
+    });
+  }
+  ordersCount: number = 0;
+
+loadOrders(): void {
+  this.http.get<any>(`http://127.0.0.1:8000/api/orders`).subscribe({
+    next: (res) => {
+      const orders = Array.isArray(res) ? res : res.orders || res.data || [];
+      this.ordersCount = orders.length;
+          this.pagination = res.pagination;
+
+      console.log('📦 عدد الطلبات:', this.ordersCount);
+    },
+    error: (err) => {
+      console.error("❌ خطأ أثناء تحميل الطلبات:", err);
+      this.ordersCount = 0;
+    }
+  });
+}
+
+
+  deleteSeller(slug: string): void {
+    if (confirm('هل تريد حذف هذا السيلر؟')) {
+      this.sellerService.delete(slug).subscribe({
+        next: () => {
+          alert('✅ تم حذف السيلر بنجاح');
+          this.loadSellers();
+        },
+        error: (err) => {
+          console.error('❌ خطأ أثناء الحذف:', err);
+          alert('❌ حدث خطأ أثناء الحذف');
+        }
+      });
     }
   }
 
-  // الحصول على إحصائيات البائع
-  getStatisticsForSeller() {
-    if (this.selectedSellerForStats !== undefined) {
-      this.sellerStats = this.statisticsData[this.selectedSellerForStats] || {};
-    }
+  goToDetail(slug: string): void {
+    this.router.navigate(['/sellers', slug]);
+  }
+
+  goToEdit(slug: string): void {
+    this.router.navigate(['/sellers/edit', slug]);
+  }
+
+  filterSellers(): void {
+    const term = this.searchTerm.toLowerCase();
+    this.filteredSellers = this.sellers.filter(seller =>
+      seller.name.toLowerCase().includes(term) ||
+      seller.email.toLowerCase().includes(term) ||
+      seller.store_name.toLowerCase().includes(term)
+    );
   }
 }

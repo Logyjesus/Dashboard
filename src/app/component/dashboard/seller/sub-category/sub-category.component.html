@@ -1,66 +1,26 @@
-<div class="subcategory-container">
-    <div class="header-actions">
-        <h1 class="page-title">Sub Categories</h1>
-        <button mat-raised-button color="primary" routerLink="/subcategories/create">
-      <mat-icon>add</mat-icon> Create Sub Category
-    </button>
-    </div>
+<h2>قائمة الساب كاتيجوري</h2>
 
-    <mat-card>
-        <mat-card-header>
-            <mat-card-title>Sub Categories List</mat-card-title>
-        </mat-card-header>
+<a routerLink="/subcategories/create" class="btn btn-primary">➕ إضافة ساب كاتيجوري</a>
 
-        <mat-card-content>
-            <!-- Loading spinner -->
-            <div *ngIf="loading" class="loading-container">
-                <mat-spinner diameter="40"></mat-spinner>
-            </div>
+<table class="table mt-3" *ngIf="!loading">
+  <thead>
+    <tr>
+      <th>الاسم</th>
+      <th>الصورة</th>
+      <th>التصنيف الرئيسي</th>
+      <th>حذف</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sub of subCategories">
+      <td>{{ sub.name }}</td>
+      <td><img [src]="sub.image" width="80" height="50" /></td>
+      <td>{{ sub.category?.name }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteSubCategory(sub.slug)">🗑️ حذف</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-            <!-- Error message -->
-            <div *ngIf="error" class="error-container">
-                <p class="error-message">{{ error }}</p>
-                <button mat-raised-button color="primary" (click)="loadSubcategories()">
-          <mat-icon>refresh</mat-icon> Try Again
-        </button>
-            </div>
-
-            <!-- Subcategories list -->
-            <div *ngIf="!loading && !error" class="subcategories-list">
-                <div *ngIf="subcategories.length === 0" class="empty-state">
-                    <p>No subcategories found.</p>
-                </div>
-
-                <table *ngIf="subcategories.length > 0" class="subcategory-table">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Name</th>
-                            <th>Slug</th>
-                            <th>Category</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let subcategory of subcategories">
-                            <td>
-                                <img [src]="subcategory.image" alt="{{ subcategory.name }}" class="thumbnail">
-                            </td>
-                            <td>{{ subcategory.name }}</td>
-                            <td>{{ subcategory.slug }}</td>
-                            <td>{{ subcategory.category.name }}</td>
-                            <td class="actions">
-                                <button mat-icon-button color="primary" title="Edit" [routerLink]="['/subcategories/edit', subcategory.slug]">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                                <button mat-icon-button color="warn" title="Delete" (click)="deleteSubcategory(subcategory)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </mat-card-content>
-    </mat-card>
-</div>
+<div *ngIf="loading">جاري التحميل...</div>

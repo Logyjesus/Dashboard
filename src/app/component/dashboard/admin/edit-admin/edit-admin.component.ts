@@ -4,9 +4,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Admin } from '../../../../module/admin';
+import { AdminService } from '../../../../service/admin.service';
 
 @Component({
   selector: 'app-edit-admin',
@@ -17,40 +19,78 @@ import { ActivatedRoute, Router } from '@angular/router';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    FormsModule
   ],
   templateUrl: './edit-admin.component.html',
   styleUrls: ['./edit-admin.component.css']
 })
 export class EditAdminComponent implements OnInit {
-  adminForm!: FormGroup;
-  slug = '';
-  private apiUrl = "http://127.0.0.1:8000/api/dashboard/admins";
+  admin: Admin = {
+    name: '',
+    email: '',
+    phone: '',
+    store_name: '',
+    address: '',
+    role: '',
+    slug: '',
+    password: '',
+    password_confirmation: ''
+  };
+
+  slug: string = '';
+  loading: boolean = false;
 
   constructor(
-    private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router,
-    private fb: FormBuilder
+    private adminService: AdminService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.slug = this.route.snapshot.paramMap.get('slug') || '';
-    this.http.get<any>(`${this.apiUrl}/${this.slug}`).subscribe(admin => {
-      this.adminForm = this.fb.group({
-        name: [admin.name, Validators.required],
-        email: [admin.email, [Validators.required, Validators.email]],
-        password: [''],
-        password_confirmation: ['']
-      });
+    this.loadAdmin();
+  }
+
+  loadAdmin(): void {
+    this.loading = true;
+    this.adminService.getBySlug(this.slug).subscribe({
+      next: (data: Admin) => {
+        // تأكد من نسخ البيانات كما هي
+        this.admin = { ...data, password: '', password_confirmation: '' };
+        this.loading = false;
+      },
+      error: () => {
+        alert('❌ لم يتم العثور على بيانات الأدمن');
+        this.router.navigate(['/Admins']);
+      }
     });
   }
 
-  updateAdmin() {
-    if (this.adminForm.valid) {
-      this.http.post(`${this.apiUrl}/${this.slug}?_method=PUT`, this.adminForm.value).subscribe(() => {
-        this.router.navigate(['/admins']);
-      });
+  updateAdmin(): void {
+    const data = { ...this.admin };
+
+    // لو مفيش كلمة مرور، احذفها
+    if (!data.password) {
+      delete data.password;
+      delete data.password_confirmation;
+    } else if (data.password !== data.password_confirmation) {
+      alert('❌ كلمة المرور وتأكيدها غير متطابقين!');
+      return;
     }
+
+    this.adminService.update(this.slug, data).subscribe({
+      next: (res) => {
+        alert('✅ تم تحديث بيانات الأدمن بنجاح');
+        this.router.navigate(['/Admins']);
+      },
+      error: (err) => {
+        console.error('❌ خطأ أثناء التحديث:', err);
+        alert('❌ حدث خطأ أثناء التحديث:\n' + (err?.error?.message || 'تفاصيل غير معروفة'));
+      }
+    });
+  }
+  backToList(){
+    this.router.navigate(['/Admins'])
   }
 }

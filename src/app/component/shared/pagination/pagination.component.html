@@ -1,0 +1,8 @@
+<nav *ngIf="totalPages > 1">
+  <button 
+    *ngFor="let page of pages" 
+    [class.active]="page === currentPage" 
+    (click)="changePage(page)">
+    {{ page }}
+  </button>
+</nav>

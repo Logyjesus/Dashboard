@@ -20,11 +20,18 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   // ✅ جلب المنتجات من الـ API
-  fetchProducts(): void {
-    this.http.get<Product[]>(this.apiUrl).subscribe(products => {
-      this.productsSubject.next(products);
-    });
-  }
+fetchProducts() {
+  this.http.get<any>('http://127.0.0.1:8000/api/dashboard/products').subscribe(
+    (res) => {
+      this.productsSubject.next(res.products); // 👈 فقط المنتجات
+    },
+    (err) => {
+      console.error('❌ فشل تحميل المنتجات:', err);
+      this.productsSubject.next([]);
+    }
+  );
+}
+
 
   // ✅ واجهة observable للمنتجات
   getProductsObservable(): Observable<Product[]> {
@@ -70,5 +77,8 @@ export class ProductService {
   addProduct(productData: Product): Observable<any> {
     return this.http.post(this.apiUrl, productData);
   }
+getAll(): Observable<any> {
+  return this.http.get<any>(this.apiUrl);
+}
 
 }

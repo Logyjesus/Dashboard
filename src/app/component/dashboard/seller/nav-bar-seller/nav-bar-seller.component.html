@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg bg-white border-bottom shadow-sm" dir="rtl">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" [routerLink]="'/dashboard/seller'">
+      <i class="fas fa-store me-2"></i> لوحة البائع
+    </a>
+
+    <!-- زر القائمة للجوال -->
+    <button class="navbar-toggler" type="button" (click)="isMenuOpen = !isMenuOpen" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- روابط القائمة -->
+    <div class="collapse navbar-collapse" [ngClass]="{ 'show': isMenuOpen }" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/dashboard/seller'">
+            <i class="fas fa-chart-line me-1 text-primary"></i> الصفحة الرئيسية
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/products'">
+            <i class="fas fa-boxes me-1 text-info"></i> المنتجات
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/dashboard/products/new'">
+            <i class="fas fa-plus me-1 text-success"></i> إضافة منتج
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/orders'">
+            <i class="fas fa-receipt me-1 text-warning"></i> الطلبات
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="'/seller-category'">
+            <i class="fas fa-layer-group me-1 text-secondary"></i> الأقسام
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

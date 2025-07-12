@@ -1,0 +1,195 @@
+<div class="add-product-container">
+  <h2>إضافة منتج جديد</h2>
+  
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
+    
+    <!-- اسم المنتج -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>اسم المنتج</mat-label>
+      <input matInput formControlName="name" placeholder="أدخل اسم المنتج">
+      <mat-error *ngIf="isFieldInvalid('name')">
+        {{ getErrorMessage('name') }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- وصف المنتج -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>وصف المنتج</mat-label>
+      <textarea matInput formControlName="description" rows="4" placeholder="أدخل وصف المنتج"></textarea>
+      <mat-error *ngIf="isFieldInvalid('description')">
+        {{ getErrorMessage('description') }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- السعر والسعر المخفض -->
+    <div class="price-row">
+      <mat-form-field appearance="outline">
+        <mat-label>السعر</mat-label>
+        <input matInput formControlName="price" type="number" placeholder="0.00">
+        <span matSuffix>جنيه</span>
+        <mat-error *ngIf="isFieldInvalid('price')">
+          {{ getErrorMessage('price') }}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>السعر المخفض (اختياري)</mat-label>
+        <input matInput formControlName="discounted_price" type="number" placeholder="0.00">
+        <span matSuffix>جنيه</span>
+      </mat-form-field>
+    </div>
+
+    <!-- الكمية والفئة -->
+    <div class="quantity-category-row">
+      <mat-form-field appearance="outline">
+        <mat-label>الكمية</mat-label>
+        <input matInput formControlName="quantity" type="number" min="1">
+        <mat-error *ngIf="isFieldInvalid('quantity')">
+          {{ getErrorMessage('quantity') }}
+        </mat-error>
+      </mat-form-field>
+<!-- 
+    <mat-form-field appearance="outline">
+  <mat-label>الفئة</mat-label>
+  <mat-select formControlName="sub_category_id" placeholder="اختر الفئة">
+ 
+    <mat-option *ngFor="let category of categories" [value]="category.id">
+      {{ category.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field> -->
+<!-- اختيار القسم الرئيسي -->
+<mat-form-field appearance="outline">
+  <mat-label>الفئة الرئيسية</mat-label>
+  <mat-select formControlName="category_slug" (selectionChange)="onCategoryChange($event.value)">
+    <mat-option *ngFor="let cat of categories" [value]="cat.slug">
+      {{ cat.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- اختيار القسم الفرعي -->
+<mat-form-field appearance="outline">
+  <mat-label>القسم الفرعي</mat-label>
+  <mat-select formControlName="sub_category_id" (selectionChange)="onSubCategoryChange($event.value)">
+    <mat-option *ngFor="let sub of subCategories" [value]="sub.id">
+      {{ sub.name }} ({{ sub.slug }})
+    </mat-option>
+  </mat-select>
+  <mat-error *ngIf="isFieldInvalid('sub_category_id')">
+    {{ getErrorMessage('sub_category_id') }}
+  </mat-error>
+</mat-form-field>
+
+
+
+    </div>
+
+    <!-- الألوان -->
+<div class="colors-section" *ngIf="selectedCategoryFeatures.hasColors">
+        <h3>الألوان</h3>
+      <div class="add-item-row">
+        <mat-form-field appearance="outline">
+          <mat-label>أضف لون</mat-label>
+          <input matInput #colorInput placeholder="مثال: أحمر, أزرق">
+        </mat-form-field>
+        <button mat-raised-button type="button" color="primary" 
+                (click)="addColor(colorInput)">
+          إضافة
+        </button>
+      </div>
+      
+      <div class="items-list" *ngIf="colors.length > 0">
+        <div *ngFor="let color of colors.controls; let i = index" class="item-chip">
+          <span>{{ color.value }}</span>
+          <button mat-icon-button (click)="removeColor(i)" type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- الأحجام -->
+<div class="sizes-section" *ngIf="selectedCategoryFeatures.hasSizes">
+      <h3>الأحجام</h3>
+      <div class="add-item-row">
+        <mat-form-field appearance="outline">
+          <mat-label>أضف حجم</mat-label>
+          <input matInput #sizeInput placeholder="مثال: S, M, L, XL">
+        </mat-form-field>
+        <button mat-raised-button type="button" color="primary" 
+                (click)="addSize(sizeInput)">
+          إضافة
+        </button>
+      </div>
+      
+      <div class="items-list" *ngIf="sizes.length > 0">
+        <div *ngFor="let size of sizes.controls; let i = index" class="item-chip">
+          <span>{{ size.value }}</span>
+          <button mat-icon-button (click)="removeSize(i)" type="button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- الصور -->
+    <div class="images-section">
+      <h3>صور المنتج</h3>
+      
+      <!-- رفع الصور -->
+      <div class="upload-area">
+        <input type="file" 
+               #fileInput 
+               (change)="onImageChange($event)" 
+               multiple 
+               accept="image/*" 
+               style="display: none;">
+        <button mat-raised-button type="button" color="accent" 
+                (click)="fileInput.click()">
+          اختر صور (متعددة)
+        </button>
+        <p class="upload-hint">يمكنك اختيار عدة صور في نفس الوقت</p>
+      </div>
+
+      <!-- عرض الصور المختارة -->
+      <div class="images-preview" *ngIf="imagePreviewUrls.length > 0">
+        <h4>الصور المختارة ({{ images.length }})</h4>
+        <div class="preview-grid">
+          <div *ngFor="let url of imagePreviewUrls; let i = index" class="preview-item">
+            <img [src]="url" [alt]="'صورة ' + (i + 1)">
+            <div class="preview-overlay">
+              <button mat-icon-button (click)="removeImage(i)" type="button" 
+                      class="remove-btn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            <p class="image-name">{{ images[i]?.name }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- أزرار الإجراءات -->
+    <div class="form-actions">
+      <button mat-raised-button 
+              type="submit" 
+              color="primary"
+              [disabled]="isLoading || productForm.invalid || images.length === 0">
+        <mat-icon *ngIf="!isLoading">save</mat-icon>
+        <mat-icon *ngIf="isLoading" class="spinner">refresh</mat-icon>
+        {{ isLoading ? 'جاري الحفظ...' : 'حفظ المنتج' }}
+      </button>
+      
+      <button mat-button 
+              type="button" 
+              (click)="onCancel()"
+              [disabled]="isLoading">
+        إلغاء
+      </button>
+    </div>
+
+  </form>
+</div>
+
+

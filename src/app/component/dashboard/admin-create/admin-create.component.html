@@ -1,26 +1,49 @@
-<div class="container mt-4">
-    <h2>إنشاء أدمن جديد</h2>
-    <form (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="fill" class="w-100 mb-3">
-        <mat-label>الاسم</mat-label>
-        <input matInput [(ngModel)]="admin.name" name="name" required />
-      </mat-form-field>
+<div class="container my-4">
+  <h2 class="text-center mb-4">➕ إنشاء أدمن جديد</h2>
 
-      <mat-form-field appearance="fill" class="w-100 mb-3">
-        <mat-label>البريد الإلكتروني</mat-label>
-        <input matInput [(ngModel)]="admin.email" name="email" required />
-      </mat-form-field>
+  <form (ngSubmit)="createAdmin()" class="card p-4 mx-auto" style="max-width: 600px;">
+    <div class="mb-3">
+      <label>الاسم:</label>
+      <input class="form-control" [(ngModel)]="admin.name" name="name" required />
+    </div>
 
-      <mat-form-field appearance="fill" class="w-100 mb-3">
-        <mat-label>كلمة المرور</mat-label>
-        <input matInput type="password" [(ngModel)]="admin.password" name="password" required />
-      </mat-form-field>
+    <div class="mb-3">
+      <label>البريد الإلكتروني:</label>
+      <input class="form-control" [(ngModel)]="admin.email" name="email" type="email" required />
+    </div>
 
-      <mat-form-field appearance="fill" class="w-100 mb-3">
-        <mat-label>تأكيد كلمة المرور</mat-label>
-        <input matInput type="password" [(ngModel)]="admin.password_confirmation" name="password_confirmation" required />
-      </mat-form-field>
+    <div class="mb-3">
+      <label>الهاتف:</label>
+      <input class="form-control" [(ngModel)]="admin.phone" name="phone" />
+    </div>
 
-      <button mat-raised-button color="primary" type="submit">إنشاء</button>
-    </form>
-  </div>
+    <div class="mb-3">
+      <label>اسم المتجر:</label>
+      <input class="form-control" [(ngModel)]="admin.store_name" name="store_name" />
+    </div>
+
+    <div class="mb-3">
+      <label>العنوان:</label>
+      <input class="form-control" [(ngModel)]="admin.address" name="address" />
+    </div>
+
+    <div class="mb-3">
+      <label>الدور:</label>
+      <select class="form-select" [(ngModel)]="admin.role" name="role">
+        <option value="admin">أدمن</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>كلمة المرور:</label>
+      <input class="form-control" [(ngModel)]="admin.password" name="password" type="password" required />
+    </div>
+
+    <div class="mb-3">
+      <label>تأكيد كلمة المرور:</label>
+      <input class="form-control" [(ngModel)]="admin.password_confirmation" name="password_confirmation" type="password" required />
+    </div>
+
+    <button class="btn btn-success w-100" type="submit">✅ إنشاء الأدمن</button>
+  </form>
+</div>

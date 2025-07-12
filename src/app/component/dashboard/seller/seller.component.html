@@ -1,74 +1,104 @@
-<title>
-    Sales and Orders Dashboard</title>
-<!-- </head>-->
-<!-- <body>-->
-<div class="dashboard">
-    <div class="header">
-        <h1>Sales and Orders Dashboard</h1>
-        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling" (click)="addProduct()">Add Product</button>
+<div class="dashboard p-4">
+<app-nav-bar-seller></app-nav-bar-seller>
+<br>
+
+  <!-- Statistics Section -->
+  <div class="row g-3 mb-4">
+    <div class="col-12 col-md-6 col-lg-3" *ngIf="stats">
+      <div class="bg-white shadow p-4 rounded-xl text-center">
+        <h2 class="text-2xl fw-bold text-primary">{{ stats.sales }}</h2>
+        <p class="text-muted">عدد الطلبات</p>
+      </div>
     </div>
-    <div class="stats">
-        <div class="stat">
-            <h2>{{stats.Sales.value}}</h2>
-            <p>{{stats.Sales.name}}</p>
-        </div>
-        <div class="stat">
-            <h2>{{stats.Revenue.value}} </h2>
-            <p>{{stats.Revenue.name}}</p>
-        </div>
-        <div class="stat">
-            <h2>{{stats.Pending.value}}</h2>
-            <p>{{stats.Pending.name}}</p>
-        </div>
-        <div class="stat">
-            <h2>{{stats.copleted.value}}</h2>
-            <p>{{stats.copleted.name}}</p>
-        </div>
+    <div class="col-12 col-md-6 col-lg-3" *ngIf="stats">
+      <div class="bg-white shadow p-4 rounded-xl text-center">
+        <h2 class="text-2xl fw-bold text-success">{{ stats.revenue }} ج</h2>
+        <p class="text-muted">الإيرادات</p>
+      </div>
     </div>
-    <div class="orders">
-        <h2>Order Details</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Order ID</th>
-                    <th>Customer</th>
-                    <th>Status</th>
-                    <th>Amount</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (order of orders; track $index) {
-                <tr>
-                    <td>{{ order.id }}</td>
-                    <td>{{ order.Customer }}</td>
-                    <td>{{ order.Status }}</td>
-                    <td>{{ order.Amount }}</td>
-                    <td>{{ order.Date }}</td>
-                </tr>
-                }
-                <tr>
-                    <td>#001</td>
-                    <td>John Doe</td>
-                    <td>Pending</td>
-                    <td>$250</td>
-                    <td>2025-01-24</td>
-                </tr>
-                <tr>
-                    <td>#002</td>
-                    <td>Jane Smith</td>
-                    <td>Completed</td>
-                    <td>$400</td>
-                    <td>2025-01-23</td>
-                </tr>
-                <tr>
-                    <td>#003</td>
-                    <td>Michael Brown</td>
-                    <td>Pending</td>
-                    <td>$150</td>
-                    <td>2025-01-22</td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="col-12 col-md-6 col-lg-3" *ngIf="stats">
+      <div class="bg-white shadow p-4 rounded-xl text-center">
+        <h2 class="text-2xl fw-bold text-warning">{{ stats.pending_orders }}</h2>
+        <p class="text-muted">طلبات قيد الانتظار</p>
+      </div>
+ 
+
     </div>
+     <div class="col-12 col-md-6 col-lg-3" *ngIf="stats">
+  <div class="bg-white shadow p-4 rounded-xl text-center">
+    <h2 class="text-2xl fw-bold text-primary">{{ stats.processing_orders }}</h2>
+    <p class="text-muted">طلبات قيد المعالجة</p>
+  </div>
+</div>
+    <div class="col-12 col-md-6 col-lg-3" *ngIf="stats">
+      <div class="bg-white shadow p-4 rounded-xl text-center">
+        <h2 class="text-2xl fw-bold text-info">{{ stats.completed_orders }}</h2>
+        <p class="text-muted">طلبات مكتملة</p>
+      </div>
+    </div>
+  </div>
+
+ <!-- فلتر الحالة -->
+<select [(ngModel)]="selectedStatus" (change)="filterOrders()" class="form-select w-auto mb-3">
+  <option value="all">الكل</option>
+  <option value="pending">قيد الانتظار</option>
+  <option value="completed">مكتمل</option>
+  <option value="processing">قيد المعالجة</option>
+
+</select>
+
+<!-- جدول الطلبات -->
+<!-- جدول الطلبات -->
+<div class="table-responsive">
+  <table class="table table-bordered text-center bg-white">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>العميل</th>
+        <th>رقم العميل</th>
+        <th>الإيميل</th>
+        <th>الحالة</th>
+        <th>المبلغ</th>
+        <th>تاريخ الطلب</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="!loading">
+      <tr *ngFor="let order of orders; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ order.user?.name }}</td>
+        <td>{{ order.user?.phone }}</td>
+        <td>{{ order.user?.email }}</td>
+        <td>
+         <span [ngClass]="{
+  'text-success': order.status === 'completed',
+  'text-warning': order.status === 'pending',
+  'text-primary': order.status === 'processing',
+  'text-danger': order.status === 'canceled'
+}">
+  {{
+    order.status === 'pending' ? 'قيد الانتظار' :
+    order.status === 'processing' ? 'قيد المعالجة' :
+    order.status === 'completed' ? 'مكتمل' :
+    order.status
+  }}
+</span>
+
+        </td>
+        <td>{{ order.total_price }} ج</td>
+        <td>{{ order.created_at | date: 'shortDate' }}</td>
+      </tr>
+      <tr *ngIf="orders.length === 0">
+        <td colspan="7" class="text-muted">لا توجد طلبات بهذه الحالة.</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="loading">
+      <tr>
+        <td colspan="7">جاري تحميل الطلبات...</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
 </div>

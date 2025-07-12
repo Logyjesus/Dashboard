@@ -1,25 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { User } from '../module/order';
+import { map, Observable } from 'rxjs';
+import { User } from '../module/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-private apiUrl ="http://127.0.0.1:8000/api/dashboard/users"
-  constructor(private http:HttpClient) { }
+  private apiUrl = 'http://127.0.0.1:8000/api/dashboard/users';
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.apiUrl);
+  constructor(private http: HttpClient) {}
+
+  createuser(user: any): Observable<any> {
+    return this.http.post(this.apiUrl, user);
+  }
+
+  // ✅ تعديل هنا: استرجاع المستخدمين مع بيانات التقسيم
+  getUsers(page: number = 1): Observable<{ users: User[], pagination: any }> {
+    return this.http.get<any>(`${this.apiUrl}?page=${page}`).pipe(
+      map(res => ({
+        users: res.users,
+        pagination: res.pagination
+      }))
+    );
   }
 
   getUserBySlug(slug: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${slug}`);
-  }
-
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
   }
 
   updateUser(slug: string, user: User): Observable<User> {

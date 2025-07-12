@@ -1,0 +1,8 @@
+li.list-group-item.active {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+li.list-group-item {
+  cursor: pointer;
+}

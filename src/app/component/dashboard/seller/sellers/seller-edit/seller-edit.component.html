@@ -1,40 +1,52 @@
-<h2>تعديل بيانات السيلر</h2>
+<div class="container py-5 d-flex justify-content-center align-items-center">
+  <div class="col-12 col-sm-10 col-md-8 col-lg-6">
 
-<div *ngIf="loading">جاري تحميل البيانات...</div>
+    <mat-card class="shadow-lg rounded-4 p-4" style="direction: rtl; background-color: #fff;">
+      <h3 class="text-center mb-4 text-primary">✏️ تعديل بيانات البائع</h3>
 
-<form *ngIf="!loading" [formGroup]="sellerForm" (ngSubmit)="onSubmit()">
-  <mat-form-field appearance="fill" class="w-100 mb-3">
-    <mat-label>الاسم</mat-label>
-    <input matInput formControlName="name" />
-    <mat-error *ngIf="sellerForm.get('name')?.invalid">الاسم مطلوب</mat-error>
-  </mat-form-field>
+      <form *ngIf="seller" (ngSubmit)="updateSeller()" #editForm="ngForm">
+        <div class="mb-3">
+          <label class="form-label">الاسم الكامل</label>
+          <input type="text" class="form-control" [(ngModel)]="seller.name" name="name" required>
+        </div>
 
-  <mat-form-field appearance="fill" class="w-100 mb-3">
-    <mat-label>رقم الهاتف</mat-label>
-    <input matInput formControlName="phone" />
-    <mat-error *ngIf="sellerForm.get('phone')?.invalid">رقم الهاتف مطلوب</mat-error>
-  </mat-form-field>
+        <div class="mb-3">
+          <label class="form-label">البريد الإلكتروني</label>
+          <input type="email" class="form-control" [(ngModel)]="seller.email" name="email" required>
+        </div>
 
-  <mat-form-field appearance="fill" class="w-100 mb-3">
-    <mat-label>البريد الإلكتروني</mat-label>
-    <input matInput type="email" formControlName="email" />
-    <mat-error *ngIf="sellerForm.get('email')?.invalid">بريد إلكتروني صالح مطلوب</mat-error>
-  </mat-form-field>
+        <div class="mb-3">
+          <label class="form-label">رقم الهاتف</label>
+          <input type="text" class="form-control" [(ngModel)]="seller.phone" name="phone">
+        </div>
 
-  <mat-form-field appearance="fill" class="w-100 mb-3">
-    <mat-label>العنوان</mat-label>
-    <input matInput formControlName="address" />
-  </mat-form-field>
+        <div class="mb-3">
+          <label class="form-label">اسم المتجر</label>
+          <input type="text" class="form-control" [(ngModel)]="seller.store_name" name="store_name">
+        </div>
 
-  <mat-form-field appearance="fill" class="w-100 mb-3">
-    <mat-label>اسم المتجر</mat-label>
-    <input matInput formControlName="store_name" />
-    <mat-error *ngIf="sellerForm.get('store_name')?.invalid">اسم المتجر مطلوب</mat-error>
-  </mat-form-field>
+        <div class="mb-3">
+          <label class="form-label">العنوان</label>
+          <textarea class="form-control" rows="2" [(ngModel)]="seller.address" name="address"></textarea>
+        </div>
 
-  <div *ngIf="error" class="text-danger mb-3">{{ error }}</div>
+        <div class="d-flex justify-content-between mt-4">
+          <button mat-stroked-button color="warn" type="button" (click)="backToList()">
+            ❌ إلغاء
+          </button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="editForm.invalid">
+            💾 حفظ التعديلات
+          </button>
+        </div>
+      </form>
 
-  <button mat-raised-button color="primary" type="submit" [disabled]="submitting">
-    {{ submitting ? 'جاري التحديث...' : 'تحديث' }}
-  </button>
-</form>
+      <div *ngIf="!seller && !loading" class="alert alert-danger text-center mt-4">
+        ⚠️ لم يتم العثور على بيانات هذا البائع.
+      </div>
+
+      <div *ngIf="loading" class="text-center my-4">
+        <mat-spinner color="accent" diameter="40"></mat-spinner>
+      </div>
+    </mat-card>
+  </div>
+</div>

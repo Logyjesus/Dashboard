@@ -1,28 +1,53 @@
+<app-navbar-admin></app-navbar-admin>
+
 <div class="container mt-4">
-    <div class="text-end mb-3">
-        <a mat-raised-button color="primary" routerLink="/admins/create">
-          ➕ إضافة أدمن جديد
-        </a>
-      </div>
-    <h2>قائمة الأدمن</h2>
-    <table mat-table [dataSource]="admins" class="mat-elevation-z8" style="width: 100%;">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> الاسم </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
 
-      <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> البريد </th>
-        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-      </ng-container>
+<div class="text-end mt-4" dir="rtl">
+  <a mat-raised-button color="primary" routerLink="/admin/new">
+    ➕ إضافة ادمن جديد
+  </a>
+</div>
+  <h2 class="text-center mb-4">قائمة الأدمن</h2>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> إجراءات </th>
-        <td mat-cell *matCellDef="let element">
-          <button mat-raised-button color="primary" [routerLink]="['/admin/view', element.slug]">تفاصيل</button>
-          <button mat-raised-button color="primary" [routerLink]="['/admin/edit', element.slug]">تعديل</button>
-          <button mat-raised-button color="warn" (click)="deleteAdmin(element.slug)">حذف</button>
+  <table class="table table-striped table-bordered table-hover text-center">
+    <thead class="table-dark">
+      <tr>
+        <th>الاسم</th>
+        <th>الإيميل</th>
+        <th>الهاتف</th>
+        <th>الدور</th>
+        <th>التحكم</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let admin of admins">
+        <td>{{ admin.name }}</td>
+        <td>{{ admin.email }}</td>
+        <td>{{ admin.phone || '-' }}</td>
+        <td>{{ admin.role }}</td>
+        <td>
+          <button class="btn btn-info btn-sm me-2" (click)="goToDetails(admin.slug!)">
+            <i class="bi bi-eye"></i> تفاصيل
+          </button>
+          <button class="btn btn-warning btn-sm me-2" (click)="goToEdit(admin.slug!)">
+            <i class="bi bi-pencil-square"></i> تعديل
+          </button>
+          <button class="btn btn-danger btn-sm" (click)="deleteAdmin(admin.slug!)">
+            <i class="bi bi-trash"></i> حذف
+          </button>
         </td>
-      </ng-container>
-    </table>
-  </div>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="totalPages >= 1" class="d-flex justify-content-center align-items-center gap-3 mt-4">
+  <button mat-stroked-button color="primary" (click)="previousPage()" [disabled]="currentPage === 1">
+    ⬅️ السابق
+  </button>
+  <span class="fw-bold">
+    الصفحة {{ currentPage }} من {{ totalPages }}
+  </span>
+  <button mat-stroked-button color="primary" (click)="nextPage()" [disabled]="currentPage === totalPages">
+    التالي ➡️
+  </button>
+</div>

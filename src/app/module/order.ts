@@ -1,5 +1,4 @@
-export interface User {
-  id: number;
+export interface Users {
   name: string;
   slug: string;
   email: string;
@@ -30,7 +29,7 @@ export interface OrderItem {
 
 export interface Order {
   slug: string;
-  user: User;
+  user: Users;
   total_price: string;
   status: string;
   order_items: OrderItem[];

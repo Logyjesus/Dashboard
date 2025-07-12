@@ -15,6 +15,7 @@ img {
     padding: 0;
 }
 
+
 h2 {
     text-align: center;
     margin-bottom: 20px;
@@ -67,10 +68,19 @@ button:disabled {
     font-size: 14px;
     margin-top: 5px;
 }
+.logo-img {
+  width: 100px;
+  height: auto;
+  margin: 14px;
+ 
+}
 
 @media (max-width: 600px) {
     .login-container {
         width: 100%;
         padding: 10px;
     }
+     .logo-img {
+    width: 80px;
+  }
 }
