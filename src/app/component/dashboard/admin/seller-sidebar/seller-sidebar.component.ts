@@ -6,6 +6,7 @@ import { ProductService } from '../../../../service/product.service';
 import { Product } from '../../../../module/product';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { BASE_URL } from '../../../../constants';
 
 @Component({
   selector: 'app-seller-sidebar',
@@ -145,7 +146,7 @@ deleteOrder(slug: string) {
   const confirmed = confirm('هل أنت متأكد من حذف الطلب؟');
   if (!confirmed) return;
 
-  this.http.delete(`http://127.0.0.1:8000/api/dashboard/orders/${slug}`).subscribe({
+  this.http.delete(`${BASE_URL}/dashboard/orders/${slug}`).subscribe({
     next: () => {
       this.sellerOrders = this.sellerOrders.filter(o => o.slug !== slug);
       alert('✅ تم حذف الطلب بنجاح');

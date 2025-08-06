@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router, RouterModule } from '@angular/router';
 import { NavBarSellerComponent } from '../../nav-bar-seller/nav-bar-seller.component';
+import { BASE_URL } from '../../../../../constants';
 
 @Component({
   selector: 'app-product',
@@ -42,7 +43,7 @@ perPage: number = 10;
   }
 
  getAllProducts(page: number = 1): void {
-  this.http.get(`http://127.0.0.1:8000/api/dashboard/products?page=${page}`).subscribe({
+  this.http.get(`${BASE_URL}/dashboard/products?page=${page}`).subscribe({
     next: (res: any) => {
       console.log('🔍 API Response:', res);
       
@@ -113,9 +114,16 @@ convertImagesToUrls(product: any): void {
 
   deleteProduct(slug: string): void {
     if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
-      this.http.delete(`http://127.0.0.1:8000/api/dashboard/products/${slug}`).subscribe({
-        next: () => this.getAllProducts(),
-        error: (err) => console.error('❌ فشل في حذف المنتج:', err)
+      this.http.delete(`${BASE_URL}/dashboard/products/${slug}`).subscribe({
+        next: () => {
+          alert('✅ تم حذف المنتج بنجاح');
+          // إعادة تحميل المنتجات مع الحفاظ على الصفحة الحالية
+          this.getAllProducts(this.currentPage);
+        },
+        error: (err) => {
+          console.error('❌ فشل في حذف المنتج:', err);
+          alert('❌ فشل في حذف المنتج. حاول مرة أخرى.');
+        }
       });
     }
   }

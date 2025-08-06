@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Order, User } from '../module/data-dashboard';
 import { Observable } from 'rxjs';
 import { Seller } from '../module/login-response';
+import { BASE_URL } from 'app/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
- private apiBase = 'http://127.0.0.1:8000/api/dashboard';
+ private apiBase = `${BASE_URL}/login/dashboard`;
 
   constructor(private http: HttpClient) {}
 

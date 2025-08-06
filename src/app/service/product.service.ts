@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../module/product';
+import { BASE_URL } from 'app/constants';
 
 
 @Injectable({
@@ -14,14 +15,14 @@ export class ProductService {
   getAllProducts() {
     throw new Error('Method not implemented.');
   }
-  private apiUrl = 'http://127.0.0.1:8000/api/dashboard/products'; // ✅ عدّل هذا حسب API الحقيقي
+  private apiUrl = `${BASE_URL}/dashboard/products`; // ✅ عدّل هذا حسب API الحقيقي
   private productsSubject = new BehaviorSubject<Product[]>([]);
 
   constructor(private http: HttpClient) {}
 
   // ✅ جلب المنتجات من الـ API
 fetchProducts() {
-  this.http.get<any>('http://127.0.0.1:8000/api/dashboard/products').subscribe(
+  this.http.get<any>(`${BASE_URL}/dashboard/products`).subscribe(
     (res) => {
       this.productsSubject.next(res.products); // 👈 فقط المنتجات
     },
@@ -45,7 +46,7 @@ fetchProducts() {
 
 
   getProductBySlug(slug: string) {
-    return this.http.get<Product>(`/api/products/${slug}`);
+    return this.http.get<Product>(`${BASE_URL}/products/${slug}`);
   }
 
 

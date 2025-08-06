@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatOptionModule } from '@angular/material/core';
+import { BASE_URL } from '../../../../../constants';
 
 @Component({
   selector: 'app-add-product',
@@ -65,7 +66,7 @@ this.productForm = this.fb.group({
   }
 
 loadCategories(): void {
-  this.http.get<any>('http://127.0.0.1:8000/api/categories').subscribe({
+  this.http.get<any>(`${BASE_URL}/categories`).subscribe({
     next: (response) => {
       this.categories = Array.isArray(response) ? response : response.data || [];
     },
@@ -156,7 +157,7 @@ loadCategories(): void {
       });
 
       // إرسال البيانات
-      this.http.post('http://127.0.0.1:8000/api/dashboard/products', formData).subscribe({
+      this.http.post(`${BASE_URL}/dashboard/products`, formData).subscribe({
         next: (response) => {
           console.log('✅ تم إنشاء المنتج بنجاح:', response);
               alert('تم إنشاء حساب البائع بنجاح');
@@ -224,7 +225,14 @@ onCategoryChange(slug: string): void {
 
 getSubCategories(slug: string) {
   console.log('🔄 جاري تحميل الأقسام الفرعية لـ:', slug);
-  this.http.get(`http://127.0.0.1:8000/api/sub-categories/${slug}`).subscribe({
+  
+  const token = localStorage.getItem('token');
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`,
+    'Accept': 'application/json'
+  });
+  
+  this.http.get(`${BASE_URL}/sub-categories/${slug}`, { headers }).subscribe({
     next: (res: any) => {
       console.log('✅ الأقسام الفرعية المحملة:', res);
       this.subCategories = Array.isArray(res) ? res : res.data || [];

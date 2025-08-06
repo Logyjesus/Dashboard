@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { DeleteOrderResponse, Order, OrdersResponse, OrderStatus } from '../module/order';
-
+import { BASE_URL } from 'app/constants';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,10 +21,10 @@ export class OrderService {
   //   return of(this.orders);
   // }
   private http = inject(HttpClient);
-  private baseUrl = 'http://127.0.0.1:8000/api/dashboard';
+  private baseUrl = `${BASE_URL}/login/dashboard`;
 
   // Hardcoded token - replace with your actual token
-  private token = '<token>';
+  private token = '19|w7DxM5O0UBSsTOB37AlxmeLq9mbWajxLELOGe6K2813b767c';
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({

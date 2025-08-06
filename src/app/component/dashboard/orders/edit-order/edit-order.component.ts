@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { BASE_URL } from '../../../../constants';
 
 @Component({
   selector: 'app-edit-order',
@@ -30,7 +31,7 @@ export class EditOrderComponent implements OnInit {
   }
 
   getOrder(): void {
-    this.http.get(`http://127.0.0.1:8000/api/dashboard/orders/${this.slug}`).subscribe({
+    this.http.get(`${BASE_URL}/dashboard/orders/${this.slug}`).subscribe({
       next: (res: any) => {
         this.order = res.order;
       },
@@ -38,7 +39,7 @@ export class EditOrderComponent implements OnInit {
   }
 
   updateOrder(): void {
-    this.http.patch(`http://127.0.0.1:8000/api/dashboard/orders/${this.slug}`, { status: this.order.status }).subscribe({
+    this.http.patch(`${BASE_URL}/dashboard/orders/${this.slug}`, { status: this.order.status }).subscribe({
       next: () => {
         alert('✅ تم تعديل حالة الطلب بنجاح');
         this.router.navigate(['/orders']);

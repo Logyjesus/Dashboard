@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BASE_URL } from 'app/constants';
 
 @Component({
   selector: 'app-deller-form',
@@ -44,7 +45,7 @@ export class DellerFormComponent {
 
   createSeller() {
   
-    this.http.post('http://127.0.0.1:8000/api/dashboard/sellers', this.sellerForm.value)
+    this.http.post(`${BASE_URL}/dashboard/sellers`, this.sellerForm.value)
       .subscribe({
         next: (res) => {
           console.log('الرد من السيرفر:', res);

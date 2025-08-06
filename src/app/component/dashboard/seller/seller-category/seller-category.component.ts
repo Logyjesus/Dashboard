@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { NavBarSellerComponent } from '../nav-bar-seller/nav-bar-seller.component';
+import { BASE_URL } from '../../../../constants';
 
 @Component({
   selector: 'app-seller-category',
@@ -74,7 +75,7 @@ getAllCategories() {
 
 
   loadCategories(): void {
-    this.http.get('http://127.0.0.1:8000/api/categories').subscribe((res: any) => {
+    this.http.get(`${BASE_URL}/categories`).subscribe((res: any) => {
       const cats = Array.isArray(res) ? res : res.data || res.categories || [];
       this.categories = cats;
     });

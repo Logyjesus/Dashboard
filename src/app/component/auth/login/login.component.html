@@ -1,23 +1,60 @@
-<div class="container d-flex justify-content-center align-items-center min-vh-100">
-  <mat-card class="p-4 w-100" style="max-width: 400px;">
-    <div class="logo-container text-center mb-3">
-      <img src="../../../../../public/ستورى_انستجرام_متحرك_كلاسيك_باللون_البينك_وخلفية_ورود_دعوة_زفاف_-removebg-preview.png" 
-           alt="شعار التطبيق" class="img-fluid" style="max-height: 100px;" />
-    </div>
-    <h3 class="text-center mb-4">تسجيل الدخول</h3>
-    <form [formGroup]="form" (ngSubmit)="login()">
-      <mat-form-field appearance="fill" class="w-100 mb-3">
-        <mat-label>البريد الإلكتروني</mat-label>
-        <input matInput formControlName="email" type="email" required>
-      </mat-form-field>
+<div class="login-wrapper">
+  <div class="background-decoration">
+    <div class="floating-element element-1"></div>
+    <div class="floating-element element-2"></div>
+    <div class="floating-element element-3"></div>
+    <div class="floating-element element-4"></div>
+  </div>
+  
+  <div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <mat-card class="login-card">
+      <div class="card-header">
+        <div class="logo-container">
+          <div class="logo-ring">
+            <img src="../../../../../public/logo.jpg"
+                 alt="شعار التطبيق" class="logo-img" />
+          </div>
+        </div>
+        <h3 class="login-title">
+          <span class="title-text">تسجيل الدخول</span>
+          <div class="title-underline"></div>
+        </h3>
+      </div>
 
-      <mat-form-field appearance="fill" class="w-100 mb-3">
-        <mat-label>كلمة المرور</mat-label>
-        <input matInput formControlName="password" type="password" required>
-      </mat-form-field>
+      <form [formGroup]="form" (ngSubmit)="login()" class="login-form">
+        <div class="input-group">
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>البريد الإلكتروني</mat-label>
+            <input matInput formControlName="email" type="email" required>
+            <mat-icon matSuffix class="input-icon">email</mat-icon>
+          </mat-form-field>
+        </div>
 
-      <button mat-raised-button color="primary" class="w-100">دخول</button>
-      <div class="text-danger mt-2" *ngIf="errorMsg">{{ errorMsg }}</div>
-    </form>
-  </mat-card>
+        <div class="input-group">
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>كلمة المرور</mat-label>
+            <input matInput formControlName="password" type="password" required>
+            <mat-icon matSuffix class="input-icon">lock</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <button mat-raised-button class="login-button" type="submit">
+          <span class="button-content">
+            <mat-icon>login</mat-icon>
+            <span>دخول</span>
+          </span>
+          <div class="button-overlay"></div>
+        </button>
+
+        <div class="error-message" *ngIf="errorMsg">
+          <mat-icon>error_outline</mat-icon>
+          <span>{{ errorMsg }}</span>
+        </div>
+      </form>
+
+      <div class="card-footer">
+        <div class="decorative-line"></div>
+      </div>
+    </mat-card>
+  </div>
 </div>

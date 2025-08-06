@@ -56,7 +56,7 @@
         <th>#</th>
         <th>العميل</th>
         <th>رقم العميل</th>
-        <th>الإيميل</th>
+        <th>عنوان الشحن</th>
         <th>الحالة</th>
         <th>المبلغ</th>
         <th>تاريخ الطلب</th>
@@ -67,7 +67,7 @@
         <td>{{ i + 1 }}</td>
         <td>{{ order.user?.name }}</td>
         <td>{{ order.user?.phone }}</td>
-        <td>{{ order.user?.email }}</td>
+        <td>{{ order.shipping_address }}</td>
         <td>
          <span [ngClass]="{
   'text-success': order.status === 'completed',

@@ -18,7 +18,7 @@
   <div class="orders-grid">
     <mat-card *ngFor="let order of filteredOrders" class="order-card">
       <h3 class="text-lg font-bold text-primary mb-2"><i class="fa-solid fa-user me-2"></i>{{ order.user.name }}</h3>
-      <p><i class="fa-solid fa-envelope me-2 text-secondary"></i>{{ order.user.email }}</p>
+      <p><i class="fa-solid fa-location-dot me-2 text-secondary"></i>{{ order.shipping_address }}</p>
       <p><i class="fa-solid fa-phone me-2 text-secondary"></i>{{ order.user.phone }}</p>
       <p>
         <i class="fa-solid fa-box me-2 text-warning"></i>

@@ -2,12 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { User } from '../module/user';
+import { BASE_URL } from 'app/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = 'http://127.0.0.1:8000/api/dashboard/users';
+  private apiUrl = `${BASE_URL}/dashboard/users`;
 
   constructor(private http: HttpClient) {}
 

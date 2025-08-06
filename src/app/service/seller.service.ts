@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { Seller } from '../module/seller';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BASE_URL } from 'app/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +11,8 @@ export class SellerService {
   get(slug: string) {
     throw new Error('Method not implemented.');
   }
-  private baseUrl = 'http://127.0.0.1:8000/api/dashboard/sellers';
-  private apiUrl = 'http://127.0.0.1:8000';
+  private baseUrl = `${BASE_URL}/dashboard/sellers`;
+  private apiUrl = `${BASE_URL}/login`;
 
   constructor(private http: HttpClient) {}
   
@@ -32,7 +33,7 @@ getAll(page: number = 1): Observable<any> {
     return this.http.put(`${this.baseUrl}/${slug}`, data);
   }
   getAllOrders() {
-  return this.http.get(`${this.apiUrl}/api/dashboard/orders`);
+  return this.http.get(`https://fasla.me/api/dashboard/orders`);
 }
 
 }

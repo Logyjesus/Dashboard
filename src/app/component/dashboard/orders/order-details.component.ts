@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { Location } from '@angular/common';
+import { BASE_URL } from '../../../constants';
 
 @Component({
   selector: 'app-order-details',
@@ -34,7 +35,7 @@ export class OrderDetailsComponent implements OnInit {
 
   getOrder() {
     this.http
-      .get(`http://127.0.0.1:8000/api/dashboard/orders/${this.slug}`)
+      .get(`${BASE_URL}/dashboard/orders/${this.slug}`)
       .subscribe({
         next: (res: any) => {
           this.order = res.data || res;

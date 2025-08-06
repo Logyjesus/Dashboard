@@ -2,13 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SubCategory } from '../module/sub-category';
-
+import { BASE_URL } from 'app/constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SubCategoryService {
- private api = 'http://127.0.0.1:8000/api/dashboard/sub-categories';
+ private api = `${BASE_URL}/dashboard/sub-categories`;
 
   constructor(private http: HttpClient) {}
 

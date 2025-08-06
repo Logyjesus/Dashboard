@@ -11,6 +11,7 @@ import { SellerSidebarComponent } from './seller-sidebar/seller-sidebar.componen
 import { Router } from '@angular/router';
 import { PaginationComponent } from '../../shared/pagination/pagination.component';
 import { NavbarAdminComponent } from "./navbar-admin/navbar-admin.component";
+import { BASE_URL } from 'app/constants';
 
 @Component({
   selector: 'app-admin',
@@ -72,7 +73,7 @@ pagination = {
   loadSellers(page: number = 1): void {
     this.loading = true;
 
-  this.http.get<any>(`http://127.0.0.1:8000/api/dashboard/sellers?page=${page}`).subscribe({
+  this.http.get<any>(`${BASE_URL}/dashboard/sellers?page=${page}`).subscribe({
       next: (response) => {
         if (response && response.sellers) {
           this.sellers = response.sellers;
@@ -101,7 +102,7 @@ pagination = {
   ordersCount: number = 0;
 
 loadOrders(): void {
-  this.http.get<any>(`http://127.0.0.1:8000/api/orders`).subscribe({
+  this.http.get<any>(`${BASE_URL}/api/orders`).subscribe({
     next: (res) => {
       const orders = Array.isArray(res) ? res : res.orders || res.data || [];
       this.ordersCount = orders.length;

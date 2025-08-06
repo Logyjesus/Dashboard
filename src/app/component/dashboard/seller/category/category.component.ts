@@ -12,8 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { AuthService } from '../../../../service/auth/auth.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NavbarAdminComponent } from "../../admin/navbar-admin/navbar-admin.component";
+import { BASE_URL } from '../../../../constants';
 
 
 @Component({
@@ -91,7 +92,7 @@ updateCategory() {
     return;
   }
 
-  this.http.patch(`http://127.0.0.1:8000/api/dashboard/categories/${this.slug}`, formData).subscribe({
+  this.http.patch(`${BASE_URL}/dashboard/categories/${this.slug}`, formData).subscribe({
     next: (res) => {
       console.log('✅ تم التحديث بنجاح');
       this.loadCategories();
@@ -130,12 +131,18 @@ updateCategory() {
   //   });
   // }
   loadCategories(): void {
-    this.http.get('http://127.0.0.1:8000/api/categories').subscribe((res: any) => {
+    this.http.get(`${BASE_URL}/categories`).subscribe((res: any) => {
       const cats = Array.isArray(res) ? res : res.data || res.categories || [];
+
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Accept': 'application/json'
+      });
 
       // بعد تحميل الكاتيجوري، نجيب لكل واحد السب كاتيجوري
       cats.forEach((cat: any) => {
-        this.http.get(`http://127.0.0.1:8000/api/dashboard/sub-categories/${cat.slug}`)
+        this.http.get(`${BASE_URL}/dashboard/sub-categories/${cat.slug}`, { headers })
           .subscribe((subs: any) => {
             cat.subCategories = subs; // أضفنا السب كاتيجوري للكائن
           });
@@ -158,20 +165,25 @@ updateCategory() {
   }
 deleteSubCategory(categorySlug: string, subSlug: string): void {
   if (confirm('هل أنت متأكد من حذف هذا التصنيف الفرعي؟')) {
-    this.http.delete(`http://127.0.0.1:8000/api/dashboard/sub-categories/${subSlug}`).subscribe({
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Accept': 'application/json'
+    });
+    
+    this.http.delete(`${BASE_URL}/dashboard/sub-categories/${subSlug}`, { headers }).subscribe({
       next: () => {
         // بعد الحذف، نعيد تحميل السب كاتيجوري
-        this.http.get(`http://127.0.0.1:8000/api/dashboard/sub-categories/${categorySlug}`)
+        this.http.get(`${BASE_URL}/dashboard/sub-categories/${categorySlug}`, { headers })
           .subscribe((subs: any) => {
+            // نجد الكاتيجوري ونحديث السب كاتيجوري
             const category = this.categories.find(cat => cat.slug === categorySlug);
             if (category) {
               category.subCategories = subs;
             }
           });
       },
-      error: (err) => {
-        console.error('❌ فشل حذف التصنيف الفرعي:', err);
-      }
+      error: (err) => console.error('❌ خطأ أثناء حذف التصنيف الفرعي', err)
     });
   }
 }

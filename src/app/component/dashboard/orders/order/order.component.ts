@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { NavBarSellerComponent } from '../../seller/nav-bar-seller/nav-bar-seller.component';
+import { BASE_URL } from '../../../../constants';
 
 @Component({
   selector: 'app-order',
@@ -45,7 +46,7 @@ export class OrderComponent implements OnInit {
 
    loadOrders(page: number = 1): void {
     this.loading = true;
-    this.http.get<any>(`http://127.0.0.1:8000/api/dashboard/orders?page=${page}`).subscribe({
+    this.http.get<any>(`${BASE_URL}/dashboard/orders?page=${page}`).subscribe({
       next: (res) => {
         this.allOrders = res.orders;
         this.currentPage = res.pagination.current_page;

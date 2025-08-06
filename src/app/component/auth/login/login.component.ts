@@ -8,11 +8,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../../service/auth/auth.service';
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatButtonModule, MatCardModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatButtonModule, MatCardModule, HttpClientModule, MatIconModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

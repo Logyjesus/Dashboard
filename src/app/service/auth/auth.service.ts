@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { BASE_URL } from 'app/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   isAuthenticated() {
     throw new Error('Method not implemented.');
   }
-   private apiUrl = 'http://127.0.0.1:8000/api/dashboard/login';
+   private apiUrl = `${BASE_URL}/dashboard/login`;
 
   constructor(private http: HttpClient) {}
 

@@ -7,6 +7,7 @@ import { Router, RouterModule } from '@angular/router';
 // import { DashboardService } from '../../../service/services/dashboard.service';
 import { OnInit } from '@angular/core';
 import { NavBarSellerComponent } from './nav-bar-seller/nav-bar-seller.component';
+import { BASE_URL } from '../../../constants';
 
 @Component({
   selector: 'app-seller',
@@ -33,7 +34,7 @@ export class SellerComponent implements OnInit  {
 
 
 loadOrders(): void {
-  this.http.get('http://127.0.0.1:8000/api/dashboard/orders').subscribe({
+  this.http.get(`${BASE_URL}/dashboard/orders`).subscribe({
     next: (res: any) => {
       this.allOrders = res.orders;
 
