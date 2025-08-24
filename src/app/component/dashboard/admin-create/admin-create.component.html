@@ -1,0 +1,50 @@
+<div class="auth-wrapper">
+  <form (ngSubmit)="createAdmin()" class="auth-card" dir="rtl">
+    <h2 class="form-title">➕ إنشاء أدمن جديد</h2>
+    <p class="form-subtitle">املأ البيانات لإنشاء حساب أدمن جديد</p>
+
+    <div class="mb-3">
+      <label>الاسم:</label>
+      <input class="form-control" [(ngModel)]="admin.name" name="name" required />
+    </div>
+
+    <div class="mb-3">
+      <label>البريد الإلكتروني:</label>
+      <input class="form-control" [(ngModel)]="admin.email" name="email" type="email" required />
+    </div>
+
+    <div class="mb-3">
+      <label>الهاتف:</label>
+      <input class="form-control" [(ngModel)]="admin.phone" name="phone" />
+    </div>
+
+    <div class="mb-3">
+      <label>اسم المتجر:</label>
+      <input class="form-control" [(ngModel)]="admin.store_name" name="store_name" />
+    </div>
+
+    <div class="mb-3">
+      <label>العنوان:</label>
+      <input class="form-control" [(ngModel)]="admin.address" name="address" />
+    </div>
+
+    <div class="mb-3">
+      <label>الدور:</label>
+      <select class="form-select" [(ngModel)]="admin.role" name="role">
+        <option value="admin">أدمن</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>كلمة المرور:</label>
+      <input class="form-control" [(ngModel)]="admin.password" name="password" type="password" required />
+    </div>
+
+    <div class="mb-3">
+      <label>تأكيد كلمة المرور:</label>
+      <input class="form-control" [(ngModel)]="admin.password_confirmation" name="password_confirmation" type="password" required />
+    </div>
+
+    <button class="btn-submit" type="submit">✅ إنشاء الأدمن</button>
+  </form>
+</div>

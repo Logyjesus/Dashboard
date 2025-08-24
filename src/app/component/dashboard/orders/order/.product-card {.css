@@ -1,0 +1,22 @@
+.product-card {
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 10px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.images img {
+  margin: 5px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.color-badge, .size-badge {
+  display: inline-block;
+  background-color: #eee;
+  padding: 4px 10px;
+  margin: 5px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}

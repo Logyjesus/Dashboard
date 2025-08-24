@@ -1,0 +1,40 @@
+<div class="edit-container" *ngIf="!loading; else loadingTemplate">
+  <h2>✏️ تعديل القسم</h2>
+
+  <form (ngSubmit)="updateCategory()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>اسم القسم</mat-label>
+      <input matInput type="text" [(ngModel)]="category.name" name="name" required />
+    </mat-form-field>
+
+    <br />
+
+    <label for="image">📷 صورة القسم:</label>
+    <input type="file" (change)="onImageSelected($event)" accept="image/*" />
+
+    <!-- عرض المعاينة إذا تم اختيار صورة جديدة -->
+    <div *ngIf="imagePreview">
+      <p>📸 معاينة الصورة الجديدة:</p>
+      <img [src]="imagePreview" alt="معاينة الصورة" width="150" />
+    </div>
+
+    <!-- عرض الصورة الأصلية إن لم يتم اختيار صورة جديدة -->
+    <div *ngIf="!imagePreview && category.image">
+      <p>📂 الصورة الحالية:</p>
+      <img [src]="category.image" alt="الصورة الحالية" width="150" />
+    </div>
+
+    <br /><br />
+
+    <button mat-raised-button color="primary" type="submit">
+      💾 حفظ التعديلات
+    </button>
+  </form>
+</div>
+
+<ng-template #loadingTemplate>
+  <div class="loading-spinner">
+    <mat-spinner diameter="50"></mat-spinner>
+    <p>جاري التحميل...</p>
+  </div>
+</ng-template>

@@ -1,0 +1,120 @@
+/* 🌈 Sidebar */
+.sidebar {
+  background: linear-gradient(180deg, #f8f9ff 0%, #eef1fb 100%);
+  border-right: 1px solid #e0e6f1;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.sidebar h4 {
+  font-weight: 700;
+  color: #4a4e69;
+}
+
+.list-group-item {
+  border: none !important;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  padding: 0.8rem 1rem !important;
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  background: #f0f4ff;
+  transform: translateX(5px);
+}
+
+.list-group-item.active {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  color: #fff !important;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
+}
+
+/* 🛍️ Products & Orders */
+.accordion-item {
+  border: none;
+  border-radius: 16px !important;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+.accordion-button {
+  background: #f8faff !important;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  border-radius: 0 !important;
+}
+
+.accordion-button:not(.collapsed) {
+  background: linear-gradient(135deg, #667eea, #764ba2) !important;
+  color: #fff !important;
+}
+
+.accordion-body {
+  background: #fff;
+  padding: 1.5rem;
+}
+
+/* 🏷️ Status */
+.badge {
+  font-size: 0.85rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 12px;
+}
+
+.badge.bg-warning { background: #f6c90e !important; color: #fff; }
+.badge.bg-primary { background: #00aaff !important; color: #fff; }
+.badge.bg-success { background: #28c76f !important; color: #fff; }
+
+/* 🔘 Buttons */
+.btn {
+  border-radius: 12px !important;
+  padding: 0.5rem 1.2rem !important;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.btn-outline-info {
+  border: 2px solid #17a2b8;
+}
+
+.btn-outline-info:hover {
+  background: #17a2b8;
+  color: white;
+}
+
+.btn-outline-danger {
+  border: 2px solid #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background: #dc3545;
+  color: white;
+}
+
+/* 🖼️ Images Grid */
+.images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 10px;
+}
+
+.images img {
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.images img:hover {
+  transform: scale(1.07);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .sidebar { min-height: auto; }
+  .accordion-body { font-size: 0.9rem; }
+}

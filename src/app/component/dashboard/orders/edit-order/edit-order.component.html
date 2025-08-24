@@ -1,0 +1,27 @@
+<mat-card *ngIf="order" class="p-4">
+  <h2 class="mb-4 text-center text-primary">
+    <i class="fa-solid fa-pen-to-square me-2"></i>تعديل حالة الطلب
+  </h2>
+
+  <form (ngSubmit)="updateOrder()" class="d-flex flex-column align-items-center gap-3">
+
+    <mat-form-field appearance="outline" class="w-100" color="primary">
+      <mat-label><i class="fa-solid fa-box me-2 text-secondary"></i>حالة الطلب</mat-label>
+      <mat-select [(ngModel)]="order.status" name="status">
+        <mat-option value="pending">
+          <i class="fa-solid fa-hourglass-half me-2 text-warning"></i>قيد الانتظار
+        </mat-option>
+          <mat-option value="processing">
+    <i class="fa-solid fa-gears me-2 text-primary"></i>قيد المعالجة
+  </mat-option>
+        <mat-option value="completed">
+          <i class="fa-solid fa-circle-check me-2 text-success"></i>مكتمل
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" class="mt-2">
+      <i class="fa-solid fa-floppy-disk me-2"></i>تحديث الطلب
+    </button>
+  </form>
+</mat-card>

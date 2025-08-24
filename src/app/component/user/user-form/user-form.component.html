@@ -1,0 +1,43 @@
+<div class="container my-5">
+  <h2 class="text-center mb-4 fw-bold title">إنشاء مستخدم جديد</h2>
+
+  <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)" 
+        class="card shadow-lg p-5 mx-auto animate__animated animate__fadeIn" 
+        style="max-width: 600px; border-radius: 20px;">
+
+    <!-- الاسم -->
+    <div class="mb-4">
+      <label class="form-label fw-semibold">الاسم</label>
+      <input class="custom-input" name="name" [(ngModel)]="user.name" required />
+    </div>
+
+    <!-- البريد -->
+    <div class="mb-4">
+      <label class="form-label fw-semibold">البريد الإلكتروني</label>
+      <input class="custom-input" type="email" name="email" [(ngModel)]="user.email" required />
+    </div>
+
+    <!-- الهاتف -->
+    <div class="mb-4">
+      <label class="form-label fw-semibold">رقم الهاتف</label>
+      <input class="custom-input" name="phone" [(ngModel)]="user.phone" />
+    </div>
+
+    <!-- كلمة المرور -->
+    <div class="mb-4">
+      <label class="form-label fw-semibold">كلمة المرور</label>
+      <input class="custom-input" type="password" name="password" [(ngModel)]="user.password" required />
+    </div>
+
+    <!-- تأكيد كلمة المرور -->
+    <div class="mb-4">
+      <label class="form-label fw-semibold">تأكيد كلمة المرور</label>
+      <input class="custom-input" type="password" name="password_confirmation" [(ngModel)]="user.password_confirmation" required />
+    </div>
+
+    <!-- زر الإنشاء -->
+    <button class="btn btn-gradient w-100 py-2 fw-bold" type="submit">
+      ➕ إنشاء المستخدم
+    </button>
+  </form>
+</div>

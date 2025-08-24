@@ -1,0 +1,10 @@
+<p>upload works!</p>
+<div class="upload-container">
+    <h1>Upload an Image</h1>
+    <input type="file" (change)="onFileSelected($event)" /> @if (imagePreview) {
+    <div>
+        <h2>Preview</h2>
+        <img [src]="imagePreview" alt="Preview" />
+    </div>
+    <button [disabled]="!imagePreview" (click)="saveImage()">Save & View</button> }
+</div>

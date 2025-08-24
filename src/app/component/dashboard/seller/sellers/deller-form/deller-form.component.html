@@ -1,0 +1,48 @@
+
+<div class="auth-wrapper">
+  <form [formGroup]="sellerForm" (ngSubmit)="createSeller()" class="auth-card" dir="rtl">
+    <h2 class="form-title">✍️ إنشاء حساب بائع</h2>
+    <p class="form-subtitle">من فضلك املأ البيانات التالية بدقة</p>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>الاسم</mat-label>
+      <input matInput formControlName="name" type="text" placeholder="ادخل الاسم">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>البريد الإلكتروني</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="example@mail.com">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>رقم الهاتف</mat-label>
+      <input matInput formControlName="phone" type="text" placeholder="010xxxxxxxx">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>اسم المتجر</mat-label>
+      <input matInput formControlName="store_name" type="text" placeholder="ادخل اسم المتجر">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>العنوان</mat-label>
+      <input matInput formControlName="address" type="text" placeholder="ادخل العنوان">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>كلمة المرور</mat-label>
+      <input matInput formControlName="password" type="password" placeholder="********">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>تأكيد كلمة المرور</mat-label>
+      <input matInput formControlName="password_confirmation" type="password" placeholder="********">
+    </mat-form-field>
+
+    <div class="btn-wrapper">
+      <button mat-raised-button color="primary" type="submit" [disabled]="sellerForm.invalid">
+        🚀 إنشاء الحساب
+      </button>
+    </div>
+  </form>
+</div>

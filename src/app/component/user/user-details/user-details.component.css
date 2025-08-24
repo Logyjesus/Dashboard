@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap');
+
+.user-details-container {
+  font-family: 'Cairo', sans-serif;
+  background-color: #fff;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 3px solid #e0e0e0;
+  border-radius: 1rem;
+  max-width: 800px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.header h2 {
+  margin: 0;
+  color: #007bff;
+  font-weight: 700;
+}
+
+.icon-main {
+  font-size: 2.5rem;
+  margin-left: 1rem;
+  color: #007bff;
+}
+
+.user-info .info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.icon {
+  font-size: 1.5rem;
+  margin-left: 1rem;
+}
+
+.success {
+  color: #28a745;
+}
+
+.info {
+  color: #17a2b8;
+}
+
+.danger {
+  color: #dc3545;
+}
+
+.warning {
+  color: #ffc107;
+}
+
+.back-button {
+  background-color: #007bff;
+  color: #fff;
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 2rem;
+  transition: 0.3s ease;
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.back-button:hover {
+  background-color: #0056b3;
+}

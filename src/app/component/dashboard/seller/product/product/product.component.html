@@ -1,0 +1,82 @@
+<br>
+<app-nav-bar-seller></app-nav-bar-seller>
+<br>
+
+<!-- البحث -->
+<div class="search-bar">
+  <input [(ngModel)]="searchText" placeholder="🔍 ابحث باسم المنتج..." />
+</div>
+
+<!-- قائمة المنتجات -->
+<div *ngIf="filteredProducts.length; else noProducts" class="product-list">
+  <mat-card *ngFor="let product of filteredProducts" class="product-card">
+    
+    <!-- صور المنتج (سلايدر) -->
+    <div *ngIf="getAllImageUrls(product).length > 0" class="image-slider">
+      <button class="prev-btn" (click)="prevImage(product)">&#10094;</button>
+      <img [src]="getAllImageUrls(product)[product.currentIndex || 0]" alt="صورة المنتج" />
+      <button class="next-btn" (click)="nextImage(product)">&#10095;</button>
+    </div>
+
+    <!-- تفاصيل المنتج -->
+    <mat-card-content class="product-content">
+      <h3 class="product-title">{{ product.name }}</h3>
+      <p class="product-subtitle">{{ product.description }}</p>
+
+<p class="price">
+  <!-- لو في ديسكونت -->
+  <ng-container *ngIf="product.discounted_price!=0 ; else basePrice">
+    <span class="old">{{ product.price }} ج</span><br>
+    <span class="new">{{ product.discounted_price }} ج</span>
+  </ng-container>
+
+  <!-- لو مفيش ديسكونت -->
+  <ng-template #basePrice>
+    <span class="base">{{ product.price }} ج</span>
+  </ng-template>
+</p>
+
+      <p><strong>الكمية:</strong> {{ product.quantity }}</p>
+      <p><strong>المحل:</strong> {{ product.store_name }}</p>
+
+      <!-- الألوان -->
+     <!-- الألوان -->
+<div *ngIf="product.colors?.length" class="colors">
+  <strong>الألوان:</strong>
+  <div class="color-item" *ngFor="let color of product.colors">
+    <span class="color-dot" [style.backgroundColor]="color.color"></span>
+    <span class="color-name">{{ color.color}}</span>
+  </div>
+</div>
+
+
+      <!-- المقاسات -->
+      <div *ngIf="product.sizes?.length" class="sizes">
+        <strong>المقاسات:</strong>
+        <span *ngFor="let size of product.sizes" class="size-box">{{ size.size }}</span>
+      </div>
+    </mat-card-content>
+    <!-- الأزرار -->
+    <mat-card-actions class="actions">
+      <button mat-raised-button color="primary" (click)="editProduct(product)">✏️ تعديل</button>
+      <button mat-raised-button color="warn" (click)="deleteProduct(product.slug)">🗑️ حذف</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+
+<!-- لا توجد منتجات -->
+<ng-template #noProducts>
+  <div class="no-products">🚫 لا توجد منتجات لعرضها</div>
+</ng-template>
+
+<!-- إضافة منتج -->
+<div class="add-btn">
+  <button mat-raised-button color="accent" (click)="goToAdd()">➕ إضافة منتج جديد</button>
+</div>
+
+<!-- الصفحات -->
+<div *ngIf="totalPages >= 1" class="pagination">
+  <button mat-stroked-button (click)="previousPage()" [disabled]="currentPage === 1">⬅️ السابق</button>
+  <span>الصفحة {{ currentPage }} من {{ totalPages }}</span>
+  <button mat-stroked-button (click)="nextPage()" [disabled]="currentPage === totalPages">التالي ➡️</button>
+</div>

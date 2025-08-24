@@ -1,0 +1,55 @@
+*{
+    direction: rtl;
+}
+/* عرض الأيقونة والنص جنب بعض */
+.horizontal-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-align: right; /* عشان RTL */
+  align-items: center;
+  justify-content: center; /* عشان يكونوا في النص أفقيًا */
+  gap: 15px; /* مسافة بين الأيقونة والنص */
+}
+
+.horizontal-card i {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 2rem;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+/* Hover Effects */
+.card:hover .card-title {
+    color: #667eea !important;
+}
+.card:hover p{
+      color: #ec3a70 !important;
+}
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(43, 79, 238, 0.3);
+
+}
+.horizontal-card i:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+}
+
+.horizontal-card .text-container h5 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #2c3e50;
+}
+
+.horizontal-card .text-container p {
+    margin: 0;
+    font-weight: 900;
+    font-size: 1.4rem;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
