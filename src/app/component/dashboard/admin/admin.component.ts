@@ -63,6 +63,11 @@ export class AdminComponent implements OnInit {
   ngOnInit(): void {
     this.loadSellers();
     this.loadOrders();
+<<<<<<< HEAD
+=======
+      this.loadUsers();
+  this.loadAdmins();
+>>>>>>> f862dda (أول رفع للمشروع)
   }
   
   
@@ -78,7 +83,11 @@ pagination = {
         if (response && response.sellers) {
           this.sellers = response.sellers;
           this.filteredSellers = this.sellers;
+<<<<<<< HEAD
           this.sellersCount = this.sellers.length
+=======
+this.sellersCount = response.pagination?.total || 0;
+>>>>>>> f862dda (أول رفع للمشروع)
   this.pagination = {
       currentPage: response.pagination.current_page,
       totalPages: Math.ceil(response.pagination.total / response.pagination.per_page)
@@ -149,4 +158,38 @@ loadOrders(): void {
       seller.store_name.toLowerCase().includes(term)
     );
   }
+<<<<<<< HEAD
+=======
+  usersCount = 0;
+adminsCount = 0;
+
+loadUsers(): void {
+  this.http.get<any>(`${BASE_URL}/dashboard/users`).subscribe({
+    next: (res) => {
+      const users = Array.isArray(res) ? res : res.users || res.data || [];
+      this.usersCount = users.length;
+      console.log('👥 عدد المستخدمين:', this.usersCount);
+    },
+    error: (err) => {
+      console.error("❌ خطأ أثناء تحميل المستخدمين:", err);
+      this.usersCount = 0;
+    }
+  });
+}
+
+loadAdmins(): void {
+  this.http.get<any>(`${BASE_URL}/dashboard/admins`).subscribe({
+    next: (res) => {
+      const admins = Array.isArray(res) ? res : res.admins || res.data || [];
+      this.adminsCount = admins.length;
+      console.log('🛡 عدد الأدمن:', this.adminsCount);
+    },
+    error: (err) => {
+      console.error("❌ خطأ أثناء تحميل الأدمن:", err);
+      this.adminsCount = 0;
+    }
+  });
+}
+
+>>>>>>> f862dda (أول رفع للمشروع)
 }

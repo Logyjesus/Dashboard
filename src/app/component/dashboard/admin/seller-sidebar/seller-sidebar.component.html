@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 
+=======
+<app-pagination
+  [totalPages]="pagination.totalPages"
+  [currentPage]="pagination.currentPage"
+  (pageChanged)="loadSellers($event)">
+</app-pagination>
+>>>>>>> f862dda (أول رفع للمشروع)
 <div class="row">
   <!-- ✅ Sidebar: قائمة البائعين -->
   <div class="col-md-3 bg-white border-end shadow-sm vh-100 p-3" style="overflow-y: auto;">
@@ -29,7 +37,20 @@
   </div>
 
   <!-- ✅ المحتوى: منتجات البائع المحدد -->
+<<<<<<< HEAD
   <div class="col-md-9 p-4" style="background-color: #f7f9fc;">
+=======
+   
+  <div class="col-md-9 p-4" style="background-color: #f7f9fc;">
+      <h4 class="mb-4 text-center text-dark fw-bold" *ngIf="selectedSellerSlug">
+    <i class="fas fa-clipboard-list"></i> منتجات البائع
+  </h4>
+  
+  <div *ngIf="noProducts" class="alert alert-warning text-center mt-3">
+  🚫 لا توجد منتجات متاحة لهذا البائع
+</div>
+<br>
+>>>>>>> f862dda (أول رفع للمشروع)
   <div class="row" *ngIf="sellerProducts.length > 0">
   <div class="accordion" id="productsAccordion">
     <div *ngFor="let product of sellerProducts; let i = index" class="accordion-item mb-3 shadow-sm rounded-4">

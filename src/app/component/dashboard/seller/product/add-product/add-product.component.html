@@ -4,7 +4,11 @@
   <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="product-form">
     
     <!-- اسم المنتج -->
+<<<<<<< HEAD
     <mat-form-field appearance="outline" class="full-width">
+=======
+    <mat-form-field appearance="outline"  class="full-width special-field" data-icon="📝" data-label="اسم المنتج">
+>>>>>>> f862dda (أول رفع للمشروع)
       <mat-label>اسم المنتج</mat-label>
       <input matInput formControlName="name" placeholder="أدخل اسم المنتج">
       <mat-error *ngIf="isFieldInvalid('name')">
@@ -13,7 +17,11 @@
     </mat-form-field>
 
     <!-- وصف المنتج -->
+<<<<<<< HEAD
     <mat-form-field appearance="outline" class="full-width">
+=======
+    <mat-form-field appearance="outline"  class="full-width special-field" data-icon="📄" data-label="وصف المنتج">
+>>>>>>> f862dda (أول رفع للمشروع)
       <mat-label>وصف المنتج</mat-label>
       <textarea matInput formControlName="description" rows="4" placeholder="أدخل وصف المنتج"></textarea>
       <mat-error *ngIf="isFieldInvalid('description')">
@@ -89,7 +97,11 @@
 <div class="colors-section" *ngIf="selectedCategoryFeatures.hasColors">
         <h3>الألوان</h3>
       <div class="add-item-row">
+<<<<<<< HEAD
         <mat-form-field appearance="outline">
+=======
+        <mat-form-field appearance="outline" style="width: 70% !important; margin-right: 15%; margin-left: 12px;">
+>>>>>>> f862dda (أول رفع للمشروع)
           <mat-label>أضف لون</mat-label>
           <input matInput #colorInput placeholder="مثال: أحمر, أزرق">
         </mat-form-field>
@@ -113,9 +125,15 @@
 <div class="sizes-section" *ngIf="selectedCategoryFeatures.hasSizes">
       <h3>الأحجام</h3>
       <div class="add-item-row">
+<<<<<<< HEAD
         <mat-form-field appearance="outline">
           <mat-label>أضف حجم</mat-label>
           <input matInput #sizeInput placeholder="مثال: S, M, L, XL">
+=======
+        <mat-form-field appearance="outline" style="width: 70% !important; margin-right: 15%; margin-left: 12px;">
+          <mat-label>أضف حجم</mat-label>
+          <input matInput #sizeInput placeholder="مثال: S, M, L, XL" >
+>>>>>>> f862dda (أول رفع للمشروع)
         </mat-form-field>
         <button mat-raised-button type="button" color="primary" 
                 (click)="addSize(sizeInput)">

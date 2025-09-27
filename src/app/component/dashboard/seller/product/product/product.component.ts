@@ -162,4 +162,28 @@ convertImagesToUrls(product: any): void {
       });
     });
   }
+<<<<<<< HEAD
+=======
+
+
+  
+
+nextImage(product: any) {
+  if (product.currentIndex < product.images.length - 1) {
+    product.currentIndex++;
+  } else {
+    product.currentIndex = 0;
+  }
+}
+
+prevImage(product: any) {
+  if (product.currentIndex > 0) {
+    product.currentIndex--;
+  } else {
+    product.currentIndex = product.images.length - 1;
+  }
+}
+
+
+>>>>>>> f862dda (أول رفع للمشروع)
 }

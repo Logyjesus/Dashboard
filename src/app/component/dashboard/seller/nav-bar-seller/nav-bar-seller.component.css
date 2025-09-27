@@ -1,0 +1,113 @@
+/* 🌟 Navbar Modern Professional */
+.navbar {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,249,250,0.98)) !important;
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 1rem 0.8rem;
+  transition: all 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* 🔥 Top Gradient Line Animation */
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,#667eea,#764ba2,#f093fb,#f5576c,#4facfe);
+  background-size: 300% 100%;
+  animation: navbar-gradient 5s linear infinite;
+}
+@keyframes navbar-gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ✨ Brand Logo */
+.navbar-brand {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+.navbar-brand:hover {
+  transform: translateY(-2px);
+}
+
+/* 📱 Toggle */
+.navbar-toggler {
+  border: none !important;
+  background: linear-gradient(135deg,#667eea,#764ba2) !important;
+  border-radius: 10px;
+  padding: 0.5rem 0.7rem;
+  transition: 0.3s;
+}
+.navbar-toggler:hover {
+  box-shadow: 0 4px 12px rgba(102,126,234,0.3);
+  transform: scale(1.05);
+}
+.navbar-toggler-icon {
+  filter: brightness(100);
+}
+
+/* 🖇️ Nav Links */
+.nav-link {
+  color: #495057 !important;
+  font-weight: 600;
+  padding: 0.7rem 1.1rem !important;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.nav-link:hover {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea !important;
+  box-shadow: 0 4px 10px rgba(102,126,234,0.1);
+  transform: translateY(-2px);
+}
+.nav-link.active {
+  background: linear-gradient(135deg,#667eea,#764ba2);
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+}
+
+/* 🎨 Animated underline */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg,#667eea,#764ba2);
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 60%;
+}
+
+/* 📱 Responsive Enhancements */
+@media (max-width: 991px) {
+  .navbar-collapse {
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-top: 0.8rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    animation: fadeIn 0.3s ease;
+  }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

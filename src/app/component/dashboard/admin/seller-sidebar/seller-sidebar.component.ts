@@ -7,11 +7,19 @@ import { Product } from '../../../../module/product';
 import { Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { BASE_URL } from '../../../../constants';
+<<<<<<< HEAD
+=======
+import { PaginationComponent } from '../../../shared/pagination/pagination.component';
+>>>>>>> f862dda (أول رفع للمشروع)
 
 @Component({
   selector: 'app-seller-sidebar',
   standalone:true,
+<<<<<<< HEAD
   imports: [CommonModule,RouterModule , FormsModule],
+=======
+  imports: [CommonModule,RouterModule , FormsModule,PaginationComponent],
+>>>>>>> f862dda (أول رفع للمشروع)
   templateUrl: './seller-sidebar.component.html',
   styleUrl: './seller-sidebar.component.css'
 })
@@ -20,7 +28,12 @@ export class SellerSidebarComponent implements OnInit {
   sellers: any[] = [];
   products: Product[] = [];
   sellerProducts: Product[] = [];
+<<<<<<< HEAD
 
+=======
+  pagination = { currentPage: 1, totalPages: 1 };
+ loading = false;
+>>>>>>> f862dda (أول رفع للمشروع)
   selectedSellerSlug: string | null = null;
   loadingSellers = true;
   loadingProducts = true;
@@ -28,6 +41,11 @@ orders: any[] = [];
 sellerOrders: any[] = [];
 loadingOrders = true;
 selectedStatus: string = 'all';
+<<<<<<< HEAD
+=======
+noProducts: boolean = false;
+
+>>>>>>> f862dda (أول رفع للمشروع)
 
   constructor(
     public http : HttpClient,
@@ -41,6 +59,10 @@ selectedStatus: string = 'all';
 
 
   ngOnInit(): void {
+<<<<<<< HEAD
+=======
+     this.loadSellers();
+>>>>>>> f862dda (أول رفع للمشروع)
     this.fetchSellers();
 
     this.productService.fetchProducts(); // اجلب كل المنتجات
@@ -93,6 +115,12 @@ filterSellerProducts() {
     p => p.store_name === sellerStoreName
   );
 
+<<<<<<< HEAD
+=======
+  // ✅ لو مفيش منتجات
+  this.noProducts = this.sellerProducts.length === 0;
+  
+>>>>>>> f862dda (أول رفع للمشروع)
   console.log("🔍 selectedSellerSlug:", this.selectedSellerSlug);
   console.log("🟡 منتجات البائع المحدد:", this.sellerProducts);
 }
@@ -158,4 +186,24 @@ deleteOrder(slug: string) {
 }
 
 
+<<<<<<< HEAD
+=======
+  loadSellers(page: number = 1) {
+    this.loading = true;
+    this.sellerService.getAll(page).subscribe({
+      next: (res) => {
+        this.sellers = res.sellers || [];
+        this.pagination = {
+          currentPage: res.pagination.current_page,
+          totalPages: Math.ceil(res.pagination.total / res.pagination.per_page)
+        };
+        this.loading = false;
+      },
+      error: () => {
+        this.sellers = [];
+        this.loading = false;
+      }
+    });
+  }
+>>>>>>> f862dda (أول رفع للمشروع)
 }

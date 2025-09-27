@@ -1,7 +1,15 @@
+<<<<<<< HEAD
 <div class="container my-4">
   <h2 class="text-center mb-4">➕ إنشاء أدمن جديد</h2>
 
   <form (ngSubmit)="createAdmin()" class="card p-4 mx-auto" style="max-width: 600px;">
+=======
+<div class="auth-wrapper">
+  <form (ngSubmit)="createAdmin()" class="auth-card" dir="rtl">
+    <h2 class="form-title">➕ إنشاء أدمن جديد</h2>
+    <p class="form-subtitle">املأ البيانات لإنشاء حساب أدمن جديد</p>
+
+>>>>>>> f862dda (أول رفع للمشروع)
     <div class="mb-3">
       <label>الاسم:</label>
       <input class="form-control" [(ngModel)]="admin.name" name="name" required />
@@ -44,6 +52,10 @@
       <input class="form-control" [(ngModel)]="admin.password_confirmation" name="password_confirmation" type="password" required />
     </div>
 
+<<<<<<< HEAD
     <button class="btn btn-success w-100" type="submit">✅ إنشاء الأدمن</button>
+=======
+    <button class="btn-submit" type="submit">✅ إنشاء الأدمن</button>
+>>>>>>> f862dda (أول رفع للمشروع)
   </form>
 </div>
