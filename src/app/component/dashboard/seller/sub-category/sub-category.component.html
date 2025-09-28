@@ -1,0 +1,26 @@
+<h2>قائمة الساب كاتيجوري</h2>
+
+<a routerLink="/subcategories/create" class="btn btn-primary">➕ إضافة ساب كاتيجوري</a>
+
+<table class="table mt-3" *ngIf="!loading">
+  <thead>
+    <tr>
+      <th>الاسم</th>
+      <th>الصورة</th>
+      <th>التصنيف الرئيسي</th>
+      <th>حذف</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sub of subCategories">
+      <td>{{ sub.name }}</td>
+      <td><img [src]="sub.image" width="80" height="50" /></td>
+      <td>{{ sub.category?.name }}</td>
+      <td>
+        <button class="btn btn-danger" (click)="deleteSubCategory(sub.slug)">🗑️ حذف</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="loading">جاري التحميل...</div>

@@ -1,0 +1,118 @@
+<mat-card *ngIf="!loading" class="update-form-card">
+  <h2 class="form-title">🎨 تحديث بيانات المنتج</h2>
+
+  <form (ngSubmit)="updateProduct()" class="update-form">
+
+    <!-- اسم المنتج -->
+    <mat-form-field appearance="outline">
+      <mat-label>اسم المنتج</mat-label>
+      <mat-icon matPrefix>inventory_2</mat-icon>
+      <input matInput [(ngModel)]="product.name" name="name" required />
+    </mat-form-field>
+
+    <!-- الوصف -->
+    <mat-form-field appearance="outline">
+      <mat-label>الوصف</mat-label>
+      <mat-icon matPrefix>description</mat-icon>
+      <textarea matInput rows="3" [(ngModel)]="product.description" name="description" required></textarea>
+    </mat-form-field>
+
+    <!-- السعر والسعر بعد الخصم -->
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>السعر</mat-label>
+        <mat-icon matPrefix>attach_money</mat-icon>
+        <input matInput type="number" [(ngModel)]="product.price" name="price" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-md-6">
+        <mat-label>السعر بعد الخصم</mat-label>
+        <mat-icon matPrefix>sell</mat-icon>
+        <input matInput type="number" [(ngModel)]="product.discounted_price" name="discounted_price" />
+      </mat-form-field>
+    </div>
+
+    <!-- الكمية -->
+    <mat-form-field appearance="outline">
+      <mat-label>الكمية</mat-label>
+      <mat-icon matPrefix>inventory</mat-icon>
+      <input matInput type="number" [(ngModel)]="product.quantity" name="quantity" required />
+    </mat-form-field>
+<!-- اختيار القسم الرئيسي -->
+<mat-form-field appearance="outline">
+  <mat-label>القسم الرئيسي</mat-label>
+  <mat-select [(ngModel)]="selectedCategorySlug" name="selectedCategorySlug" (selectionChange)="onCategoryChange()">
+   <mat-option *ngFor="let category of categories" [value]="category.slug">
+  {{ category.name }}
+</mat-option>
+  </mat-select>
+</mat-form-field>
+
+<!-- اختيار القسم الفرعي -->
+<mat-form-field appearance="outline">
+  <mat-label>القسم الفرعي</mat-label>
+  <mat-select [(ngModel)]="product.sub_category_slug" name="sub_category_slug" required
+              (selectionChange)="onSubCategoryChange($event.value)">
+  <mat-option *ngFor="let sub of subCategories" [value]="sub.slug">
+  {{ sub.name }}
+</mat-option>
+  </mat-select>
+</mat-form-field>
+
+
+
+    <!-- ألوان المنتج -->
+   <div *ngIf="hasColors">
+  <mat-form-field appearance="outline">
+    <mat-label>إضافة لون</mat-label>
+    <input matInput [(ngModel)]="newColor" name="newColor" />
+    <button mat-icon-button (click)="addColor()" type="button">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div *ngIf="product.colors.length > 0" class="chip-list">
+   <span class="chip" *ngFor="let color of product.colors; let i = index">
+  {{ color }}
+  <button mat-icon-button (click)="removeColor(i)" type="button">
+    <mat-icon>close</mat-icon>
+  </button>
+</span>
+
+  </div>
+</div>
+
+
+    <!-- مقاسات المنتج -->
+<div *ngIf="hasSizes">
+  <mat-form-field appearance="outline">
+    <mat-label>إضافة مقاس</mat-label>
+    <input matInput [(ngModel)]="newSize" name="newSize" />
+    <button mat-icon-button (click)="addSize()" type="button">
+      <mat-icon>add</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div *ngIf="product.sizes.length > 0" class="chip-list">
+    <span class="chip" *ngFor="let size of product.sizes; let i = index">
+      {{ size }}
+      <button mat-icon-button (click)="removeSize(i)" type="button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </span>
+  </div>
+</div>
+
+
+    <!-- زر الحفظ -->
+    <div class="submit-btn-container mt-4">
+      <button mat-flat-button color="primary" type="submit" class="submit-btn">
+        💾 حفظ التحديثات
+      </button>
+      
+  <button mat-flat-button color="warn" type="button" (click)="cancelEdit()" class="submit-btn">
+    ❌ إلغاء التعديل
+  </button>
+    </div>
+  </form>
+</mat-card>

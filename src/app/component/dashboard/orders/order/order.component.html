@@ -1,0 +1,92 @@
+<app-nav-bar-seller></app-nav-bar-seller>
+<br>
+<div class="text-center my-4">
+  <mat-form-field appearance="outline" class="filter-field rtl-filter">
+    <mat-icon matPrefix class="text-primary">filter_alt</mat-icon>
+    <mat-label>فلتر الحالة</mat-label>
+    <mat-select [(ngModel)]="selectedStatus" (selectionChange)="filterOrders()">
+      <mat-option value="all">الكل</mat-option>
+      <mat-option value="pending">قيد الانتظار</mat-option>
+      <mat-option value="processing">قيد المعالجة</mat-option>
+      <mat-option value="completed">مكتمل</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
+<ng-container *ngIf="!loading; else loadingTpl">
+  <div class="orders-grid">
+    <mat-card *ngFor="let order of filteredOrders" class="order-card">
+      <h3 class="text-lg font-bold text-primary mb-2"><i class="fa-solid fa-user me-2"></i>{{ order.user.name }}</h3>
+      <p><i class="fa-solid fa-location-dot me-2 text-secondary"></i>{{ order.shipping_address }}</p>
+      <p><i class="fa-solid fa-phone me-2 text-secondary"></i>{{ order.user.phone }}</p>
+      <p>
+        <i class="fa-solid fa-box me-2 text-warning"></i>
+        الحالة:
+       <span [ngClass]="{
+  'status-pending': order.status === 'pending',
+  'status-processing': order.status === 'processing',
+  'status-completed': order.status === 'completed',
+  
+}">
+  {{
+    order.status === 'pending' ? 'قيد الانتظار' :
+    order.status === 'processing' ? 'قيد المعالجة' :
+    'مكتمل'
+  }}
+</span>
+
+      </p>
+      <p><i class="fa-regular fa-clock me-2 text-info"></i>{{ order.created_at | date:'short' }}</p>
+
+      <mat-expansion-panel class="mt-3">
+        <mat-expansion-panel-header>
+          <mat-panel-title><i class="fa-solid fa-list me-2"></i>تفاصيل الطلب</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <div *ngFor="let item of order.order_items" class="mt-2 border-top pt-2">
+          <p><strong>{{ item.order_item.name }}</strong></p>
+          <p class="text-muted"><i class="fa-solid fa-file-lines"></i> الوصف : {{ item.order_item.description }}</p>
+          <p><i class="fa-solid fa-tags me-2"></i>السعر: {{ item.order_item.price }} | بعد الخصم: {{ item.price }}</p>
+          <p><i class="fa-solid fa-sort-numeric-up me-2"></i>الكمية: {{ item.quantity }}</p>
+
+          <div class="order-images" *ngIf="getImages(item.order_item).length">
+            <img *ngFor="let img of getImages(item.order_item)" [src]="img" alt="صورة المنتج" />
+          </div>
+
+          <div *ngIf="item.order_item.colors?.length">
+            <p class="mt-2"><i class="fa-solid fa-palette me-2"></i>الألوان:</p>
+            <div *ngFor="let color of item.order_item.colors" class="d-flex align-items-center mb-1">
+              <span class="color-circle" [style.background]="color.color" title="{{ color.color }}"></span>
+              <span>{{ color.color }}</span>
+            </div>
+          </div>
+
+          <p *ngIf="item.order_item.sizes?.length" class="mt-2">
+            <i class="fa-solid fa-ruler me-2"></i>المقاسات: {{ getSizesText(item.order_item) }}
+          </p>
+        </div>
+      </mat-expansion-panel>
+
+      <div class="order-actions">
+        <button mat-mini-fab color="primary" (click)="editOrder(order.slug)">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+
+
+      </div>
+    </mat-card>
+  </div>
+</ng-container>
+
+<ng-template #loadingTpl>
+  <div class="text-center py-6 text-lg text-muted">
+    <i class="fa-solid fa-spinner fa-spin me-2"></i> جاري تحميل الطلبات...
+  </div>
+</ng-template>
+
+<div *ngIf="totalPages > 1" class="pagination-container">
+  <button mat-stroked-button color="primary" (click)="previousPage()" [disabled]="currentPage === 1">⬅️ السابق</button>
+  <span class="mx-4">الصفحة {{ currentPage }} من {{ totalPages }}</span>
+  <button mat-stroked-button color="primary" (click)="nextPage()" [disabled]="currentPage === totalPages">التالي ➡️</button>
+</div>

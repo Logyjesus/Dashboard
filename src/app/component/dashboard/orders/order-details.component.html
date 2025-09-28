@@ -1,0 +1,97 @@
+<div *ngIf="order" class="container my-5">
+
+  <!-- عنوان رئيسي -->
+  <div class="text-center mb-4">
+    <h2 class="fw-bold text-primary">
+      🛒 تفاصيل الطلب: <span class="text-dark">{{ order.slug }}</span>
+    </h2>
+  </div>
+
+  <!-- معلومات المستخدم -->
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h5 class="card-title text-secondary fw-bold">
+        <i class="fas fa-user"></i> معلومات المستخدم
+      </h5>
+      <p><strong>👤 الاسم:</strong> {{ order.user.name }}</p>
+      <p><strong>� عنوان الشحن:</strong> {{ order.shipping_address }}</p>
+      <p><strong>📞 الهاتف:</strong> {{ order.user.phone }}</p>
+      <p><strong>💰 السعر الإجمالي:</strong> {{ order.total_price }} جنيه</p>
+      <p>
+        <strong>📦 الحالة:</strong>
+        <span class="badge" [ngClass]="{
+          'bg-warning text-dark': order.status === 'pending',
+          'bg-success': order.status === 'completed'
+        }">
+          {{ order.status === 'pending' ? 'قيد الانتظار' : 'مكتمل' }}
+        </span>
+      </p>
+    </div>
+  </div>
+
+  <!-- عناصر الطلب -->
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h5 class="card-title text-secondary fw-bold">
+        <i class="fas fa-box-open"></i> العناصر المشتراة
+      </h5>
+
+      <div *ngFor="let item of order.order_items" class="border-top pt-3 mt-3">
+        <h5 class="fw-bold text-primary">{{ item.order_item.name }}</h5>
+        <p class="text-muted">{{ item.order_item.description }}</p>
+
+        <p>
+          <i class="fas fa-money-bill-wave text-success"></i>
+          💵 <strong>السعر:</strong>
+          {{ item.price }} × {{ item.quantity }} = {{ item.price * item.quantity }} جنيه
+        </p>
+
+        <p>
+          <i class="fas fa-store text-secondary"></i>
+          🏪 <strong>اسم المحل:</strong> {{ item.order_item.store_name }}
+        </p>
+
+        <p>
+          <i class="fas fa-palette text-primary"></i>
+          🎨 <strong>الألوان:</strong>
+          <span *ngIf="item.order_item.colors?.length > 0; else noColors">
+            <span *ngFor="let c of item.order_item.colors" class="badge bg-primary me-1">
+              {{ c.color }}
+            </span>
+          </span>
+          <ng-template #noColors>لا يوجد</ng-template>
+        </p>
+
+        <p>
+          <i class="fas fa-ruler-combined text-secondary"></i>
+          📏 <strong>المقاسات:</strong>
+          <span *ngIf="item.order_item.sizes?.length > 0; else noSizes">
+            <span *ngFor="let s of item.order_item.sizes" class="badge bg-secondary me-1">
+              {{ s.size }}
+            </span>
+          </span>
+          <ng-template #noSizes>لا يوجد</ng-template>
+        </p>
+
+        <!-- صور المنتج -->
+        <div class="images mt-3">
+          <div class="d-flex flex-wrap gap-2">
+            <img *ngFor="let img of getImages(item)"
+                [src]="img"
+                class="img-thumbnail shadow-sm"
+                style="height: 100px; width: auto;"
+                alt="صورة المنتج">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="text-center">
+  <button class="btn btn-outline-secondary mt-4 text-center " (click)="goBack()">
+  <i class="fas fa-arrow-right"></i> رجوع
+</button>
+</div>
+</div>
+
+

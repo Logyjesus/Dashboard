@@ -1,0 +1,83 @@
+.filter-field {
+  width: 300px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.filter-field .mat-form-field-infix {
+  padding: 8px 10px !important;
+}
+
+.filter-field .mat-select-value {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.filter-field .mat-select-arrow {
+  color: #1976d2;
+
+}
+
+
+
+.orders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.order-card {
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  background-color: #fff;
+  transition: transform 0.2s;
+}
+.order-card:hover {
+  transform: translateY(-5px);
+}
+
+.status-pending {
+  color: #f59e0b; /* orange */
+  font-weight: bold;
+}
+.status-completed {
+  color: #10b981; /* green */
+  font-weight: bold;
+}
+
+.color-circle {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  margin: 0 5px;
+}
+
+.order-images img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin: 5px;
+  border: 1px solid #eee;
+}
+
+.order-actions {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pagination-container {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 1rem;
+}
+.status-processing {
+  color: rgb(0, 81, 255);
+  font-weight: bold;
+}

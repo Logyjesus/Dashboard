@@ -1,0 +1,84 @@
+/* خلفية الصفحة */
+.auth-wrapper {
+  background: linear-gradient(135deg, #eef2f3 0%, #8e9eab 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Cairo", sans-serif;
+}
+
+/* الكارد */
+.auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 35px 30px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  backdrop-filter: blur(12px);
+  max-width: 550px;
+  width: 100%;
+  animation: slideUp 0.8s ease-out;
+}
+
+/* العنوان */
+.form-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.form-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* الحقول */
+.form-control,
+.form-select {
+  border-radius: 10px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #3f51b5;
+  box-shadow: 0 0 8px rgba(63, 81, 181, 0.25);
+  transform: scale(1.01);
+}
+
+/* الزرار */
+.btn-submit {
+  background: linear-gradient(135deg, #43a047, #66bb6a);
+  color: #fff;
+  font-size: 17px;
+  font-weight: bold;
+  border: none;
+  border-radius: 30px;
+  padding: 12px;
+  width: 100%;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.btn-submit:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0px 6px 20px rgba(67, 160, 71, 0.4);
+}
+
+/* أنيميشن دخول */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,55 @@
+<div class="container mt-5">
+    <!-- بيانات البائع -->
+    <div class="row mb-4">
+        <div class="col-12 col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body text-center">
+                    <h4 class="card-title">{{ seller.name }}</h4>
+                    <p class="card-text text-muted">البريد الإلكتروني: {{ seller.email }}</p>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>إجمالي المبيعات</h5>
+                            <p>{{ seller.totalSales }}</p>
+                        </div>
+                        <div class="col-6">
+                            <h5>إجمالي الإيرادات</h5>
+                            <p>{{ seller.totalRevenue }} جنيه</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الرسوم البيانية -->
+        <div class="col-12 col-md-6">
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">مبيعات المنتجات</h5>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- قائمة المنتجات -->
+    <div class="row">
+        <div class="col-12">
+            <h3 class="text-center mb-4">المنتجات المباعة</h3>
+            <div class="row">
+                @for (product of products; track $index) {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg">
+                        <img src="https://via.placeholder.com/150" class="card-img-top" alt="منتج">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ product.name }}</h5>
+                            <p class="card-text">{{ product.description }}</p>
+                            <p class="card-text">السعر: {{ product.price }} جنيه</p>
+                            <p class="card-text">المنتجات المباعة: {{ product.sold }}</p>
+                            <button class="btn btn-primary"><i class="fas fa-cart-plus"></i> إضافة إلى السلة</button>
+                        </div>
+                    </div>
+                </div>}
+            </div>
+        </div>
+    </div>
+</div>

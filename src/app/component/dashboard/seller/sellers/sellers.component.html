@@ -1,0 +1,93 @@
+<app-navbar-admin></app-navbar-admin>
+
+<div class="text-end mt-4" dir="rtl">
+  <a mat-raised-button color="primary" routerLink="/sellers/new">
+    ➕ إضافة سيلر جديد
+  </a>
+</div>
+
+<div class="container mt-4">
+  <h2 class="mb-4 text-center text-primary fw-bold">لوحة إدارة البائعين</h2>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <mat-form-field appearance="outline" class="flex-grow-1 me-3">
+      <mat-label>بحث</mat-label>
+      <input
+        matInput
+        placeholder="ابحث بالاسم أو البريد أو اسم المتجر"
+        [(ngModel)]="searchTerm"
+        (input)="filterSellers()"
+      />
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="loading" class="text-center my-5">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading && filteredSellers.length > 0" class="table-responsive shadow rounded overflow-hidden">
+    <table mat-table [dataSource]="filteredSellers" class="mat-elevation-z8 w-100 table table-hover">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef class="text-primary">الاسم</th>
+        <td mat-cell *matCellDef="let seller">{{ seller.name }}</td>
+      </ng-container>
+
+      <!-- Store Name Column -->
+      <ng-container matColumnDef="store_name">
+        <th mat-header-cell *matHeaderCellDef class="text-primary">المتجر</th>
+        <td mat-cell *matCellDef="let seller">{{ seller.store_name }}</td>
+      </ng-container>
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef class="text-primary">البريد الإلكتروني</th>
+        <td mat-cell *matCellDef="let seller">{{ seller.email }}</td>
+      </ng-container>
+
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef class="text-primary">الهاتف</th>
+        <td mat-cell *matCellDef="let seller">{{ seller.phone }}</td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="text-primary">إجراءات</th>
+        <td mat-cell *matCellDef="let seller">
+          <button mat-icon-button color="primary" (click)="goToDetail(seller.slug)" matTooltip="تفاصيل">
+            <mat-icon>info</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" (click)="goToEdit(seller.slug)" matTooltip="تعديل">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteSeller(seller.slug)" matTooltip="حذف">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <div *ngIf="!loading && filteredSellers.length === 0" class="alert alert-warning text-center mt-4">
+    لا توجد نتائج لعرضها حالياً.
+  </div>
+</div>
+
+<!-- التحكم في الصفحات -->
+<div *ngIf="totalPages >= 1" class="d-flex justify-content-center align-items-center gap-3 mt-4">
+  <button mat-stroked-button color="primary" (click)="previousPage()" [disabled]="currentPage === 1">
+    ⬅️ السابق
+  </button>
+
+  <span class="fw-bold">
+    الصفحة {{ currentPage }} من {{ totalPages }}
+  </span>
+
+  <button mat-stroked-button color="primary" (click)="nextPage()" [disabled]="currentPage === totalPages">
+    التالي ➡️
+  </button>
+</div>

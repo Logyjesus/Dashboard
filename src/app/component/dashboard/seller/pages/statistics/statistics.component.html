@@ -1,0 +1,96 @@
+<div class="container mt-4">
+    <h2>📊 لوحة الإحصائيات</h2>
+
+    <!-- الإحصائيات العامة -->
+    <div class="row">
+        <!-- إجمالي المبيعات -->
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                    <h5 class="card-title">{{ stats.Sales.name }}</h5>
+                    <p class="card-text">{{ stats.Sales.value }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- إجمالي الإيرادات -->
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <i class="fas fa-money-check-alt fa-2x"></i>
+                    <h5 class="card-title">{{ stats.Revenue.name }}</h5>
+                    <p class="card-text">{{ stats.Revenue.value }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الطلبات المعلقة -->
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <i class="fas fa-exclamation-triangle fa-2x"></i>
+                    <h5 class="card-title">{{ stats.Pending.name }}</h5>
+                    <p class="card-text">{{ stats.Pending.value }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- الطلبات المكتملة -->
+        <div class="col-md-3 mb-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <i class="fas fa-check-circle fa-2x"></i>
+                    <h5 class="card-title">{{ stats.copleted.name }}</h5>
+                    <p class="card-text">{{ stats.copleted.value }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- المخطط البياني -->
+    <div class="row">
+        <div class="col-12">
+            <div style="display: block; margin-top: 30px;">
+                <canvas baseChart [data]="barChartData" [options]="barChartOptions" [legend]="barChartLegend" [type]="barChartType">
+              </canvas>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- جدول الطلبات -->
+    <div class="orders">
+        <h3>🛒 آخر الطلبات</h3>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>العميل</th>
+                        <th>المبلغ</th>
+                        <th>الحالة</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of orders">
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.Customer }}</td>
+                        <td>{{ order.Amount }} دولار</td>
+                        <td>
+                            <span [ngClass]="{
+                              'text-success': order.Status === 'Completed',
+                              'text-warning': order.Status === 'Pending',
+                              'text-danger': order.Status === 'Canceled',
+                              'text-info': order.Status === 'Shipped'
+                          }">{{ order.Status }}</span>
+                        </td>
+                        <td>{{ order.Date }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<app-nav-bar-seller></app-nav-bar-seller>
+<br>
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold"><i class="fas fa-folder-open me-2"></i> الأقسام</h2>
+  </div>
+
+  <!-- Loader -->
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <!-- الكروت -->
+  <div *ngIf="!loading && categories.length > 0" class="row g-4">
+    <div *ngFor="let category of categories" class="col-md-6 col-lg-4">
+      <div class="card shadow-sm h-100">
+<img [src]="category.image" class="card-img-top" alt="{{category.name}}" style="max-height: 250px; object-fit: contain; background-color: #f8f9fa;">
+        <div class="card-body">
+          <h5 class="card-title text-primary"><i class="fas fa-tag me-2"></i>{{ category.name }}</h5>
+
+          <!-- Sub Categories -->
+       <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let sub of category.subCategories">
+  <div class="d-flex align-items-center">
+    <!-- صورة التصنيف الفرعي -->
+    <img [src]="sub.image" alt="{{ sub.name }}" width="40" height="40"
+         class="rounded-circle me-2 border"
+         style="object-fit: cover; background-color: #f0f0f0;">
+         
+    <!-- اسم التصنيف الفرعي -->
+    <span><i class="fas fa-angle-left text-muted me-1"></i> {{ sub.name }}</span>
+  </div>
+
+
+</li>
+
+
+
+          <ng-template #noSub>
+            <p class="text-muted">لا توجد تصنيفات فرعية</p>
+          </ng-template>
+
+          <!-- Actions -->
+          <div class="d-flex justify-content-between mt-3">
+            <!-- <button class="btn btn-sm btn-warning" (click)="goToEdit(category)">
+              <i class="fas fa-edit me-1"></i> تعديل
+            </button> -->
+         
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- لا توجد بيانات -->
+  <div *ngIf="!loading && categories.length === 0" class="alert alert-info text-center mt-4">
+    لا توجد أقسام متاحة حالياً.
+  </div>
+

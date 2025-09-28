@@ -1,0 +1,88 @@
+/* تحسين مظهر البطاقات */
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+
+/* تنسيق الجدول */
+
+.table th,
+.table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+/* تحسين عرض البطاقة في الجوال */
+
+@media (max-width: 767px) {
+    .card {
+        margin-bottom: 20px;
+    }
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+
+
+/* تحسين مظهر المخطط البياني */
+
+canvas {
+    width: 100% !important;
+    height: 400px !important;
+}
+
+
+/* تحسين التباين بين الحالات في الجدول */
+
+.text-success {
+    color: green;
+}
+
+.text-warning {
+    color: orange;
+}
+
+.text-danger {
+    color: red;
+}
+
+.text-info {
+    color: blue;
+}
+
+
+/* تنسيق الأيقونات في البطاقات */
+
+.card i {
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+
+/* فاصل بين الأقسام */
+
+hr {
+    border: 0;
+    border-top: 2px solid #eee;
+    margin: 40px 0;
+}
+
+
+/* تنسيق العنوان */
+
+h3,
+h2 {
+    /* direction: rtl; */
+    margin-bottom: 50px;
+    font-size: 1.5rem;
+    color: #333;
+    margin-left: 40%;
+}

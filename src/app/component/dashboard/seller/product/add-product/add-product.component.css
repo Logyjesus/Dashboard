@@ -1,0 +1,234 @@
+/* ============================= */
+/* Global Reset & Body Styling */
+/* ============================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  transition: all 0.3s ease !important;
+}
+
+body {
+  font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  direction: rtl;
+}
+
+/* ============================= */
+/* Main Container */
+/* ============================= */
+.add-product-container {
+  max-width: 1000px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: slideInUp 0.8s ease-out;
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================= */
+/* Header */
+.add-product-container h2 {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  text-align: center;
+  padding: 30px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  border-radius: 16px 16px 0 0;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .add-product-container h2 {
+    font-size: 1.6rem;
+    padding: 20px;
+  }
+}
+
+/* ============================= */
+/* Product Form */
+.product-form {
+  display: grid;
+  gap: 30px;
+  padding: 40px;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+/* Special Fields Styling */
+.product-form .special-field {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-top: 7px solid rgba(148, 115, 115, 0.84);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.product-form .special-field::before {
+  content: attr(data-icon);
+  position: absolute;
+  top:3px;
+  right: 0px;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  padding: 10px 14px;
+  border-radius: 50%;
+  box-shadow: 0 6px 15px rgba(79,70,229,0.35);
+  animation: pulseIcon 2s infinite;
+}
+
+@keyframes pulseIcon {
+  0%,100%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.1);opacity:0.8;}
+}
+
+.product-form .special-field::after {
+  content: attr(data-label);
+  position: absolute;
+  top: 3px;
+  right: 65px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 6px 15px rgba(124,58,237,0.35);
+}
+
+.product-form .special-field:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(79,70,229,0.15);
+}
+
+/* ============================= */
+/* Price / Quantity / Category */
+.price-row,
+.quantity-category-row,
+.colors-section,
+.sizes-section,
+.images-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.price-row::before,
+.quantity-category-row::before,
+.colors-section::before,
+.sizes-section::before,
+.images-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 16px 16px 0 0;
+}
+
+.price-row::before { background: linear-gradient(90deg,#10b981,#059669);}
+.quantity-category-row::before { background: linear-gradient(90deg,#10b981,#059669);}
+.colors-section::before { background: linear-gradient(90deg,#ec4899,#be185d);}
+.sizes-section::before { background: linear-gradient(90deg,#f59e0b,#d97706);}
+.images-section::before { background: linear-gradient(90deg,#8b5cf6,#7c3aed);}
+
+.price-row:hover,
+.quantity-category-row:hover,
+.colors-section:hover,
+.sizes-section:hover,
+.images-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+}
+
+/* ============================= */
+/* Colors / Sizes Titles */
+.colors-section h3::before { content:'🎨'; margin-left:5px;}
+.sizes-section h3::before { content:'📏'; margin-left:5px;}
+.images-section h3::before { content:'🖼️'; margin-left:5px;}
+
+/* ============================= */
+/* Add Items Row */
+.add-item-row { display: flex; gap: 15px; align-items: flex-end; }
+.add-item-row button { padding: 20px 40px; border-radius: 12px; font-weight: 900; background: linear-gradient(135deg,#10b981,#059669); color:white; cursor:pointer; transition:all 0.3s ease;}
+.add-item-row button:hover { transform: translateY(-2px); box-shadow:0 8px 25px rgba(16,185,129,0.4); }
+
+/* ============================= */
+/* Preview Grid */
+.preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px,1fr));
+  gap: 15px;
+}
+
+.preview-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.preview-item:hover { transform: scale(1.05); }
+
+.preview-item img { width:100%; height:100%; object-fit:cover; }
+
+/* ============================= */
+/* Form Actions */
+.form-actions {
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin-top:30px;
+  flex-wrap: wrap;
+}
+
+.form-actions button { min-width:160px; padding:16px 32px; border-radius:12px; font-weight:600; cursor:pointer; transition:all 0.3s ease; }
+
+/* ============================= */
+/* Responsive */
+@media (max-width: 768px){
+  .add-product-container { max-width:100%; margin:0; border-radius:0; padding:15px; }
+  .price-row, .quantity-category-row, .add-item-row { display:flex; flex-direction:column; gap:15px; }
+  .add-item-row button { width:100%; }
+  .form-actions { flex-direction:column; align-items:stretch; }
+  .preview-grid { grid-template-columns: repeat(auto-fill,minmax(100px,1fr)); gap:10px;}
+}
+
+/* ============================= */
+/* Smooth Animations & Effects */
+.mat-form-field { animation: fadeInUp 0.6s ease forwards; }
+@keyframes fadeInUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+

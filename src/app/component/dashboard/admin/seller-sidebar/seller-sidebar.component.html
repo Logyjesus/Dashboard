@@ -1,0 +1,208 @@
+
+<app-pagination
+  [totalPages]="pagination.totalPages"
+  [currentPage]="pagination.currentPage"
+  (pageChanged)="loadSellers($event)">
+</app-pagination>
+
+<div class="row">
+  <!-- ✅ Sidebar: قائمة البائعين -->
+  <div class="col-md-3 bg-white border-end shadow-sm vh-100 p-3" style="overflow-y: auto;">
+    <h4 class="text-center mb-4 text-primary fw-bold">
+      <i class="fas fa-users"></i> البائعين
+    </h4>
+
+    <div *ngIf="loadingSellers" class="text-center text-muted mb-3">
+      <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+    </div>
+
+    <ul *ngIf="!loadingSellers" class="list-group">
+      <li *ngFor="let seller of sellers"
+          class="list-group-item list-group-item-action d-flex justify-content-between align-items-start"
+          (click)="selectSeller(seller)"
+          [class.active]="selectedSellerSlug === seller.slug"
+          style="cursor: pointer;">
+        <div>
+          <i class="fas fa-user-circle me-2 text-secondary"></i>
+          {{ seller.name }}
+          <div class="small text-muted ms-4">
+            <i class="fas fa-store"></i> {{ seller.store_name }}
+          </div>
+        </div>
+        <i *ngIf="selectedSellerSlug === seller.slug" class="fas fa-check text-success"></i>
+      </li>
+    </ul>
+  </div>
+
+  <!-- ✅ المحتوى: منتجات البائع المحدد -->
+
+  <div class="col-md-9 p-4" style="background-color: #f7f9fc;">
+
+   
+  <div class="col-md-9 p-4" style="background-color: #f7f9fc;">
+      <h4 class="mb-4 text-center text-dark fw-bold" *ngIf="selectedSellerSlug">
+    <i class="fas fa-clipboard-list"></i> منتجات البائع
+  </h4>
+  
+  <div *ngIf="noProducts" class="alert alert-warning text-center mt-3">
+  🚫 لا توجد منتجات متاحة لهذا البائع
+</div>
+<br>
+
+  <div class="row" *ngIf="sellerProducts.length > 0">
+  <div class="accordion" id="productsAccordion">
+    <div *ngFor="let product of sellerProducts; let i = index" class="accordion-item mb-3 shadow-sm rounded-4">
+      <h2 class="accordion-header" [id]="'productHeading' + i">
+        <button class="accordion-button fw-bold" type="button"
+                data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#productCollapse' + i"
+                aria-expanded="true"
+                [attr.aria-controls]="'productCollapse' + i">
+          🛍️ {{ product.name }} - 💰 {{ product.price }} ج.م
+        </button>
+      </h2>
+      <div [id]="'productCollapse' + i" class="accordion-collapse collapse"
+           [class.show]="i === 0"
+           [attr.aria-labelledby]="'productHeading' + i"
+           data-bs-parent="#productsAccordion">
+        <div class="accordion-body">
+          <p><strong>📄 الوصف:</strong> {{ product.description }}</p>
+          <p><strong>📦 الكمية:</strong> {{ product.quantity }}</p>
+          <p><strong>🏪 المحل:</strong> {{ product.store_name }}</p>
+
+          <!-- ✅ الألوان -->
+          <p *ngIf="product.colors?.length">
+            🎨 <strong>الألوان:</strong>
+            <span *ngFor="let c of product.colors" class="badge bg-primary me-1">{{ c.color }}</span>
+          </p>
+
+          <!-- ✅ المقاسات -->
+          <p *ngIf="product.sizes?.length">
+            📏 <strong>المقاسات:</strong>
+            <span *ngFor="let s of product.sizes" class="badge bg-secondary me-1">{{ s.size }}</span>
+          </p>
+
+          <!-- ✅ الصور -->
+          <div class="images mt-3">
+  <img *ngFor="let img of product.images"
+       [src]="img.image_path"
+       alt="Product Image"
+       class="img-thumbnail me-2"
+       style="height: 120px; width: auto;">
+</div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ الطلبات الخاصة بالبائع -->
+<div class="mt-5" *ngIf="selectedSellerSlug">
+  <h4 class="mb-4 text-center text-dark fw-bold">
+    <i class="fas fa-clipboard-list"></i> طلبات البائع
+  </h4>
+  <div class="mb-3">
+  <label class="form-label fw-bold">فلتر الحالة:</label>
+  <select class="form-select w-auto d-inline-block"
+          [(ngModel)]="selectedStatus"
+          (change)="filterSellerOrders()">
+    <option value="all">الكل</option>
+    <option value="pending">قيد الانتظار</option>
+    <option value="processing">قيد المعالجة</option>
+    <option value="completed">مكتمل</option>
+  </select>
+</div>
+
+
+  <div *ngIf="loadingOrders" class="text-center text-muted">
+    <i class="fas fa-spinner fa-spin"></i> جاري تحميل الطلبات...
+  </div>
+
+  <div *ngIf="!loadingOrders && sellerOrders.length === 0" class="alert alert-warning text-center">
+    <i class="fas fa-exclamation-circle"></i> لا توجد طلبات لهذا البائع.
+  </div>
+
+  <div class="accordion" id="ordersAccordion" *ngIf="sellerOrders.length > 0">
+    <div *ngFor="let order of sellerOrders; let i = index" class="accordion-item mb-3 shadow-sm rounded-4">
+      <h2 class="accordion-header" [id]="'heading' + i">
+        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
+                [attr.data-bs-target]="'#collapse' + i" aria-expanded="true"
+                [attr.aria-controls]="'collapse' + i">
+          🧾 طلب: {{ order.slug }} | 
+          📦 <span class="badge ms-2" [ngClass]="{
+  'bg-warning': order.status === 'pending',
+  'bg-primary': order.status === 'processing',
+  'bg-success': order.status === 'completed',
+}">
+  {{
+    order.status === 'pending' ? 'قيد الانتظار' :
+    order.status === 'processing' ? 'قيد المعالجة' :
+    order.status === 'completed' ? 'مكتمل' :
+    order.status
+  }}
+</span>
+
+        </button>
+      </h2>
+      <div [id]="'collapse' + i" class="accordion-collapse collapse" [class.show]="i === 0"
+           [attr.aria-labelledby]="'heading' + i" data-bs-parent="#ordersAccordion">
+        <div class="accordion-body">
+          <p><strong>👤 المستخدم:</strong> {{ order.user?.name }}</p>
+          <p><strong>� عنوان الشحن:</strong> {{ order.shipping_address }}</p>
+          <p><strong>📞 الهاتف:</strong> {{ order.user?.phone }}</p>
+
+          <!-- ✅ عناصر الطلب -->
+          <div *ngFor="let item of order.order_items" class="mt-4 border-top pt-3">
+            <h6 class="text-primary fw-bold">
+              <i class="fas fa-box"></i> {{ item.order_item.name }}
+              <span class="text-muted small ms-2">{{ item.order_item.description }}</span>
+            </h6>
+
+            <p>💵 السعر: {{ item.order_item.price }} × {{ item.quantity }} = 
+              <strong>{{ item.order_item.price * item.quantity }} ج.م</strong></p>
+
+            <p>🎨 الألوان:
+              <span *ngFor="let c of item.order_item.colors" class="badge bg-primary me-1">
+                {{ c.color }}
+              </span>
+            </p>
+
+            <p>📏 المقاسات:
+              <span *ngFor="let s of item.order_item.sizes" class="badge bg-secondary me-1">
+                {{ s.size }}
+              </span>
+            </p>
+
+            <div class="images mt-2">
+              <img *ngFor="let img of item.order_item.images"
+                   [src]="img.image_path"
+                   alt="Product Image"
+                   class="img-thumbnail me-2"
+                   style="height: 90px; width: auto;">
+            </div>
+          </div>
+
+          <!-- ✅ أزرار الإجراء -->
+          <div class="mt-4 text-end">
+            <a [routerLink]="['/orders/', order.slug]" class="btn btn-outline-info me-2 ms-4">
+              <i class="fas fa-eye"></i> عرض التفاصيل
+            </a>
+            <button class="btn btn-outline-danger" (click)="deleteOrder(order.slug)">
+              <i class="fas fa-trash"></i> حذف الطلب
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <!-- ✅ في حال لم يتم اختيار بائع -->
+    <div *ngIf="!selectedSellerSlug" class="text-center mt-5 text-muted">
+      <i class="fas fa-arrow-left fa-2x mb-2"></i>&nbsp;
+      <p>اختر بائعًا من القائمة الجانبية لعرض منتجاته.</p>
+    </div>
+  </div>
+</div>
